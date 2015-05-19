@@ -58,7 +58,7 @@ function load_config($file,$parse=CONF_PARSE){
             return parse_ini_file($file);
         case 'yaml':
             return yaml_parse_file($file);
-        case 'xml': 
+        case 'xml':
             return (array)simplexml_load_file($file);
         case 'json':
             return json_decode(file_get_contents($file), true);
@@ -155,7 +155,7 @@ function L($name=null, $value=null) {
             foreach($replace as &$v){
                 $v = '{$'.$v.'}';
             }
-            return str_replace($replace,$value,isset($_lang[$name]) ? $_lang[$name] : $name);        
+            return str_replace($replace,$value,isset($_lang[$name]) ? $_lang[$name] : $name);
         }
         $_lang[$name] = $value; // 语言定义
         return null;
@@ -220,10 +220,10 @@ function T($template='',$layer=''){
     $auto   =   C('AUTOLOAD_NAMESPACE');
     if($auto && isset($auto[$extend])){ // 扩展资源
         $baseUrl    =   $auto[$extend].$module.$layer.'/';
-    }elseif(C('VIEW_PATH')){ 
+    }elseif(C('VIEW_PATH')){
         // 改变模块视图目录
         $baseUrl    =   C('VIEW_PATH');
-    }elseif(defined('TMPL_PATH')){ 
+    }elseif(defined('TMPL_PATH')){
         // 指定全局视图目录
         $baseUrl    =   TMPL_PATH.$module;
     }else{
@@ -273,17 +273,17 @@ function I($name,$default='',$filter=null,$datas=null) {
         $method =   'param';
     }
     switch(strtolower($method)) {
-        case 'get'     :   
+        case 'get'     :
         	$input =& $_GET;
         	break;
-        case 'post'    :   
+        case 'post'    :
         	$input =& $_POST;
         	break;
-        case 'put'     :   
+        case 'put'     :
         	if(is_null($_PUT)){
             	parse_str(file_get_contents('php://input'), $_PUT);
         	}
-        	$input 	=	$_PUT;        
+        	$input 	=	$_PUT;
         	break;
         case 'param'   :
             switch($_SERVER['REQUEST_METHOD']) {
@@ -300,30 +300,30 @@ function I($name,$default='',$filter=null,$datas=null) {
                     $input  =  $_GET;
             }
             break;
-        case 'path'    :   
+        case 'path'    :
             $input  =   array();
             if(!empty($_SERVER['PATH_INFO'])){
                 $depr   =   C('URL_PATHINFO_DEPR');
-                $input  =   explode($depr,trim($_SERVER['PATH_INFO'],$depr));            
+                $input  =   explode($depr,trim($_SERVER['PATH_INFO'],$depr));
             }
             break;
-        case 'request' :   
-        	$input =& $_REQUEST;   
+        case 'request' :
+        	$input =& $_REQUEST;
         	break;
-        case 'session' :   
-        	$input =& $_SESSION;   
+        case 'session' :
+        	$input =& $_SESSION;
         	break;
-        case 'cookie'  :   
-        	$input =& $_COOKIE;    
+        case 'cookie'  :
+        	$input =& $_COOKIE;
         	break;
-        case 'server'  :   
-        	$input =& $_SERVER;    
+        case 'server'  :
+        	$input =& $_SERVER;
         	break;
-        case 'globals' :   
-        	$input =& $GLOBALS;    
+        case 'globals' :
+        	$input =& $GLOBALS;
         	break;
-        case 'data'    :   
-        	$input =& $datas;      
+        case 'data'    :
+        	$input =& $datas;
         	break;
         default:
             return null;
@@ -350,12 +350,12 @@ function I($name,$default='',$filter=null,$datas=null) {
                         return   isset($default) ? $default : null;
                     }
                 }else{
-                    $filters    =   explode(',',$filters);                    
+                    $filters    =   explode(',',$filters);
                 }
             }elseif(is_int($filters)){
                 $filters    =   array($filters);
             }
-            
+
             if(is_array($filters)){
                 foreach($filters as $filter){
                     if(function_exists($filter)) {
@@ -598,7 +598,7 @@ function D($name='',$layer='') {
  * 实例化一个没有模型文件的Model
  * @param string $name Model名称 支持指定基础模型 例如 MongoModel:User
  * @param string $tablePrefix 表前缀
- * @param mixed $connection 数据库连接信息
+ * @param mixed $connection 数据库连接信息 配置信息数组或配置文件key
  * @return Any\Model
  */
 function M($name='', $tablePrefix='',$connection='') {
@@ -609,6 +609,12 @@ function M($name='', $tablePrefix='',$connection='') {
         $class      =   'Any\\Model';
     }
     $guid           =   (is_array($connection)?implode('',$connection):$connection).$tablePrefix . $name . '_' . $class;
+
+    if ($connection && is_string($connection)) {
+        $connection_array = C($connection);
+        is_array($connection_array)&&!empty($connection_array) ? $connection=$connection_array : null;
+    }
+
     if (!isset($_model[$guid]))
         $_model[$guid] = new $class($name,$tablePrefix,$connection);
     return $_model[$guid];
@@ -689,7 +695,7 @@ function A($name,$layer='',$level=0) {
     $level  =   $level? : ($layer == C('DEFAULT_C_LAYER')?C('CONTROLLER_LEVEL'):1);
     if(isset($_action[$name.$layer]))
         return $_action[$name.$layer];
-    
+
     $class  =   parse_res_name($name,$layer,$level);
     if(class_exists($class)) {
         $action             =   new $class();
@@ -736,7 +742,7 @@ function tag($tag, &$params=NULL) {
 /**
  * 执行某个行为
  * @param string $name 行为名称
- * @param string $tag 标签名称（行为类无需传入） 
+ * @param string $tag 标签名称（行为类无需传入）
  * @param Mixed $params 传入的参数
  * @return void
  */
@@ -878,7 +884,7 @@ function U($url='',$vars='',$suffix=true,$domain=false) {
         $anchor =   $info['fragment'];
         if(false !== strpos($anchor,'?')) { // 解析参数
             list($anchor,$info['query']) = explode('?',$anchor,2);
-        }        
+        }
         if(false !== strpos($anchor,'@')) { // 解析域名
             list($anchor,$host)    =   explode('@',$anchor, 2);
         }
@@ -914,7 +920,7 @@ function U($url='',$vars='',$suffix=true,$domain=false) {
         parse_str($info['query'],$params);
         $vars = array_merge($params,$vars);
     }
-    
+
     // URL组装
     $depr       =   C('URL_PATHINFO_DEPR');
     $urlCase    =   C('URL_CASE_INSENSITIVE');
@@ -955,7 +961,7 @@ function U($url='',$vars='',$suffix=true,$domain=false) {
                 $var[$varController]   =   parse_name($var[$varController]);
             }
             $module =   '';
-            
+
             if(!empty($path)) {
                 $var[$varModule]    =   implode($depr,$path);
             }else{
@@ -974,7 +980,7 @@ function U($url='',$vars='',$suffix=true,$domain=false) {
                 $module =   $var[$varModule];
                 unset($var[$varModule]);
             }
-            
+
         }
     }
 
@@ -982,7 +988,7 @@ function U($url='',$vars='',$suffix=true,$domain=false) {
         $url        =   __APP__.'?'.C('VAR_MODULE')."={$module}&".http_build_query(array_reverse($var));
         if($urlCase){
             $url    =   strtolower($url);
-        }        
+        }
         if(!empty($vars)) {
             $vars   =   http_build_query($vars);
             $url   .=   '&'.$vars;
@@ -1000,7 +1006,7 @@ function U($url='',$vars='',$suffix=true,$domain=false) {
         if(!empty($vars)) { // 添加参数
             foreach ($vars as $var => $val){
                 if('' !== trim($val))   $url .= $depr . $var . $depr . urlencode($val);
-            }                
+            }
         }
         if($suffix) {
             $suffix   =  $suffix===true?C('URL_HTML_SUFFIX'):$suffix;
@@ -1121,7 +1127,7 @@ function F($name, $value='', $path=DATA_PATH) {
         if (is_null($value)) {
             // 删除缓存
             if(false !== strpos($name,'*')){
-                return false; // TODO 
+                return false; // TODO
             }else{
                 unset($_cache[$name]);
                 return Any\Storage::unlink($filename,'F');
@@ -1215,7 +1221,7 @@ function data_to_xml($data, $item='item', $id='id') {
  * @param mixed $value session值
  * @return mixed
  */
-function session($name='',$value='') {
+function session_old($name='',$value='') {
     $prefix   =  C('SESSION_PREFIX');
     if(is_array($name)) { // session初始化 在session_start 之前调用
         if(isset($name['prefix'])) C('SESSION_PREFIX',$name['prefix']);
@@ -1244,16 +1250,16 @@ function session($name='',$value='') {
             $class  =   strpos($type,'\\')? $type : 'Any\\Session\\Driver\\'. ucwords(strtolower($type));
             $hander =   new $class();
             session_set_save_handler(
-                array(&$hander,"open"), 
-                array(&$hander,"close"), 
-                array(&$hander,"read"), 
-                array(&$hander,"write"), 
-                array(&$hander,"destroy"), 
-                array(&$hander,"gc")); 
+                array(&$hander,"open"),
+                array(&$hander,"close"),
+                array(&$hander,"read"),
+                array(&$hander,"write"),
+                array(&$hander,"destroy"),
+                array(&$hander,"gc"));
         }
         // 启动session
         if(C('SESSION_AUTO_START'))  session_start();
-    }elseif('' === $value){ 
+    }elseif('' === $value){
         if(''===$name){
             // 获取全部的session
             return $prefix ? $_SESSION[$prefix] : $_SESSION;
@@ -1286,17 +1292,17 @@ function session($name='',$value='') {
         }elseif($prefix){ // 获取session
             if(strpos($name,'.')){
                 list($name1,$name2) =   explode('.',$name);
-                return isset($_SESSION[$prefix][$name1][$name2])?$_SESSION[$prefix][$name1][$name2]:null;  
+                return isset($_SESSION[$prefix][$name1][$name2])?$_SESSION[$prefix][$name1][$name2]:null;
             }else{
-                return isset($_SESSION[$prefix][$name])?$_SESSION[$prefix][$name]:null;                
-            }            
+                return isset($_SESSION[$prefix][$name])?$_SESSION[$prefix][$name]:null;
+            }
         }else{
             if(strpos($name,'.')){
                 list($name1,$name2) =   explode('.',$name);
-                return isset($_SESSION[$name1][$name2])?$_SESSION[$name1][$name2]:null;  
+                return isset($_SESSION[$name1][$name2])?$_SESSION[$name1][$name2]:null;
             }else{
                 return isset($_SESSION[$name])?$_SESSION[$name]:null;
-            }            
+            }
         }
     }elseif(is_null($value)){ // 删除session
         if(strpos($name,'.')){
@@ -1330,6 +1336,237 @@ function session($name='',$value='') {
 		}
     }
     return null;
+}
+
+/**
+ * session管理函数 写操作默认强制刷新变量过期时间
+ * @param string|array $name session名称 如果为数组则表示进行session设置
+ * @param mixed $value session值
+ * @param int $expire session变量过期时间(秒)
+ * @param int $extime 是否刷新变量过期时间 0否 1是 默认1 读操作有效
+ * @return mixed
+ */
+function session($name='',$value='',$expire=0,$extime=1) {
+    $prefix = C('SESSION_PREFIX');
+    !$expire||!is_numeric($expire) ? $expire = C('SESSION_OPTIONS.expire') : null;
+    $expire_time_new = TIMESTAMP+$expire;
+    if(is_array($name)) { // session初始化 在session_start 之前调用
+        if(isset($name['prefix'])) C('SESSION_PREFIX',$name['prefix']);
+        if(C('VAR_SESSION_ID') && isset($_REQUEST[C('VAR_SESSION_ID')])){
+            session_id($_REQUEST[C('VAR_SESSION_ID')]);
+        }elseif(isset($name['id'])) {
+            session_id($name['id']);
+        }
+        if('common' == APP_MODE){ // 其它模式可能不支持
+            ini_set('session.auto_start', 0);
+        }
+        if(isset($name['name']))            session_name($name['name']);
+        if(isset($name['path']))            session_save_path($name['path']);
+        if(isset($name['domain']))          ini_set('session.cookie_domain', $name['domain']);
+        if(isset($name['expire']))          ini_set('session.gc_maxlifetime', $name['expire']);
+        if(isset($name['use_trans_sid']))   ini_set('session.use_trans_sid', $name['use_trans_sid']?1:0);
+        if(isset($name['use_cookies']))     ini_set('session.use_cookies', $name['use_cookies']?1:0);
+        if(isset($name['cache_limiter']))   session_cache_limiter($name['cache_limiter']);
+        if(isset($name['cache_expire']))    session_cache_expire($name['cache_expire']);
+        if(isset($name['type']))            C('SESSION_TYPE',$name['type']);
+        if(C('SESSION_TYPE')) { // 读取session驱动
+            $type   =   C('SESSION_TYPE');
+            $class  =   strpos($type,'\\')? $type : 'Think\\Session\\Driver\\'. ucwords(strtolower($type));
+            $hander =   new $class();
+            session_set_save_handler(
+                array(&$hander,"open"),
+                array(&$hander,"close"),
+                array(&$hander,"read"),
+                array(&$hander,"write"),
+                array(&$hander,"destroy"),
+                array(&$hander,"gc"));
+        }
+        // 启动session
+        if(C('SESSION_AUTO_START'))  session_start();
+    } else if ($value === '') {
+        if(''===$name){
+            // 获取全部的session
+            return $prefix ? $_SESSION[$prefix] : $_SESSION;
+            // if ($prefix) {
+            //     $expire_time = $_SESSION[$prefix]['session_expire'];
+            //     if ($expire_time >= TIMESTAMP) {
+            //         return $_SESSION[$prefix];
+            //     } else {
+            //         unset($_SESSION[$prefix]);
+            //         return null;
+            //     }
+            // } else {
+            //     $expire_time = $_SESSION['session_expire'];
+            //     if ($expire_time >= TIMESTAMP) {
+            //         return $_SESSION;
+            //     } else {
+            //         $_SESSION = array();
+            //         return null;
+            //     }
+            // }
+        } else if (strpos($name,'[')===0) { // session 操作
+            if ($name == '[pause]') { // 暂停session
+                session_write_close();
+            } else if ($name == '[start]') { // 启动session
+                session_start();
+            } else if ($name == '[destroy]') { // 销毁session
+                $_SESSION = array();
+                session_unset();
+                session_destroy();
+            } else if ($name == '[regenerate]') { // 重新生成id
+                session_regenerate_id(TRUE); //TRUE删除旧的sessionfile
+            }
+        } else if (strpos($name,'?') === 0) { // 检查session
+            $name = substr($name,1);
+            if(strpos($name,'.')){ // 支持数组
+                list($name1,$name2) = explode('.',$name);
+                // return $prefix ? isset($_SESSION[$prefix][$name1][$name2]):isset($_SESSION[$name1][$name2]);
+
+                if ($prefix) {
+                    if (!isset($_SESSION[$prefix][$name1])) return null;
+                    $expire_time = $_SESSION[$prefix][$name1.'_expire'];
+                    if ($expire_time >= TIMESTAMP) {
+                        return isset($_SESSION[$prefix][$name1][$name2]);
+                    } else {
+                        unset($_SESSION[$prefix][$name1]);
+                        unset($_SESSION[$prefix][$name1.'_expire']);
+                        return null;
+                    }
+                } else {
+                    if (!isset($_SESSION[$name1])) return null;
+                    $expire_time = $_SESSION[$name1.'_expire'];
+                    if ($expire_time >= TIMESTAMP) {
+                        return isset($_SESSION[$name1][$name2]);
+                    } else {
+                        unset($_SESSION[$name1]);
+                        unset($_SESSION[$name1.'_expire']);
+                        return null;
+                    }
+                }
+            } else {
+                // return $prefix?isset($_SESSION[$prefix][$name]):isset($_SESSION[$name]);
+
+                if ($prefix) {
+                    if (!isset($_SESSION[$prefix][$name])) return null;
+                    $expire_time = $_SESSION[$prefix][$name.'_expire'];
+                    if ($expire_time >= TIMESTAMP) {
+                        return isset($_SESSION[$prefix][$name]);
+                    } else {
+                        unset($_SESSION[$prefix][$name]);
+                        unset($_SESSION[$prefix][$name.'_expire']);
+                        return null;
+                    }
+                } else {
+                    if (!isset($_SESSION[$name])) return null;
+                    $expire_time = $_SESSION[$name.'_expire'];
+                    if ($expire_time >= TIMESTAMP) {
+                        return isset($_SESSION[$name]);
+                    } else {
+                        unset($_SESSION[$name]);
+                        unset($_SESSION[$name.'_expire']);
+                        return null;
+                    }
+                }
+            }
+        } else if (is_null($name)) { // 清空session
+            if ($prefix) {
+                unset($_SESSION[$prefix]);
+            } else {
+                $_SESSION = array();
+            }
+        } else if ($prefix) { // 获取session
+            if (strpos($name,'.')) {
+                list($name1,$name2) = explode('.',$name);
+                // return isset($_SESSION[$prefix][$name1][$name2])?$_SESSION[$prefix][$name1][$name2]:null;
+
+                if (!isset($_SESSION[$prefix][$name1])) return null;
+                $expire_time = $_SESSION[$prefix][$name1.'_expire'];
+                if ($expire_time >= TIMESTAMP) {
+                    $extime ? $_SESSION[$prefix][$name1.'_expire'] = $expire_time_new : null;
+                    return isset($_SESSION[$prefix][$name1][$name2]) ? $_SESSION[$prefix][$name1][$name2] : null;
+                } else {
+                    unset($_SESSION[$prefix][$name1]);
+                    unset($_SESSION[$prefix][$name1.'_expire']);
+                    return null;
+                }
+            } else {
+                // return isset($_SESSION[$prefix][$name])?$_SESSION[$prefix][$name]:null;
+
+                if (!isset($_SESSION[$prefix][$name])) return null;
+                $expire_time = $_SESSION[$prefix][$name.'_expire'];
+                if ($expire_time >= TIMESTAMP) {
+                    $extime ? $_SESSION[$prefix][$name.'_expire'] = $expire_time_new : null;
+                    return $_SESSION[$prefix][$name];
+                } else {
+                    unset($_SESSION[$prefix][$name]);
+                    unset($_SESSION[$prefix][$name.'_expire']);
+                    return null;
+                }
+            }
+        } else {
+            if (strpos($name,'.')) {
+                list($name1,$name2) = explode('.',$name);
+                // return isset($_SESSION[$name1][$name2])?$_SESSION[$name1][$name2]:null;
+
+                if (!isset($_SESSION[$name1])) return null;
+                $expire_time = $_SESSION[$name1.'_expire'];
+                if ($expire_time >= TIMESTAMP) {
+                    $extime ? $_SESSION[$name1.'_expire'] = $expire_time_new : null;
+                    return isset($_SESSION[$name1][$name2]) ? $_SESSION[$name1][$name2] : null;
+                } else {
+                    unset($_SESSION[$name1]);
+                    unset($_SESSION[$name1.'_expire']);
+                    return null;
+                }
+            } else {
+                // return isset($_SESSION[$name])?$_SESSION[$name]:null;
+
+                if (!isset($_SESSION[$name])) return null;
+                $expire_time = $_SESSION[$name.'_expire'];
+                if ($expire_time >= TIMESTAMP) {
+                    $extime ? $_SESSION[$name.'_expire'] = $expire_time_new : null;
+                    return $_SESSION[$name];
+                } else {
+                    unset($_SESSION[$name]);
+                    unset($_SESSION[$name.'_expire']);
+                    return null;
+                }
+            }
+        }
+    } else if (is_null($value)) { // 删除session
+        if ($prefix) {
+            unset($_SESSION[$prefix][$name]);
+            unset($_SESSION[$prefix][$name.'_expire']);
+        } else {
+            unset($_SESSION[$name]);
+            unset($_SESSION[$name.'_expire']);
+        }
+    } else { // 设置session
+        if ($prefix) {
+            if (!isset($_SESSION[$prefix])) {
+                $_SESSION[$prefix] = array();
+            }
+            $_SESSION[$prefix][$name]   =  $value;
+
+            //设置session有效期
+            // if (!isset($_SESSION[$prefix]['session_expire']) || $extime) {
+                // $_SESSION[$prefix]['session_expire'] = $expire_time_new;
+            // }
+            // if (!isset($_SESSION[$prefix][$name.'_expire']) || $extime) {
+                $_SESSION[$prefix][$name.'_expire'] = $expire_time_new;
+            // }
+        } else {
+            $_SESSION[$name]  =  $value;
+
+            //设置session有效期
+            // if (!isset($_SESSION['session_expire']) || $extime) {
+                // $_SESSION['session_expire'] = $expire_time_new;
+            // }
+            // if (!isset($_SESSION[$name.'_expire']) || $extime) {
+                $_SESSION[$name.'_expire'] = $expire_time_new;
+            // }
+        }
+    }
 }
 
 /**
@@ -1438,7 +1675,7 @@ function load_ext_file($path) {
 /**
  * 获取客户端IP地址
  * @param integer $type 返回类型 0 返回IP地址 1 返回IPV4地址数字
- * @param boolean $adv 是否进行高级模式获取（有可能被伪装） 
+ * @param boolean $adv 是否进行高级模式获取（有可能被伪装）
  * @return mixed
  */
 function get_client_ip($type = 0,$adv=false) {
@@ -1539,4 +1776,162 @@ function any_filter(&$value){
 // 不区分大小写的in_array实现
 function in_array_case($value,$array){
     return in_array(strtolower($value),array_map('strtolower',$array));
+}
+
+
+
+//地球半径 KM
+define(EARTH_RADIUS, 6378.137);
+
+/**
+ * MongoDB直接调用方法
+ * @param string $collection 集合名称
+ * @param string $db 数据库名称
+ * @param string $dbconfig 配置文件key
+ */
+function Mongo($collection=null,$db=null,$dbconfig=null)
+{
+    if ($dbconfig) {
+        $mconfig = is_array($dbconfig)&&!empty($dbconfig) ? $dbconfig : C($dbconfig);
+    }else{
+        $mconfig = C('MONGO.DEFAULT_CONFIG');
+    }
+    !$db ? $db = $mconfig['database'] : null;
+
+    //连接MongoDB
+    $mongo = new \Think\Db\Driver\Mongo($mconfig);
+    $mongoconn = $mongo->connect();
+
+    //选择数据库
+    $mongodb = $mongoconn->selectDB($db);
+
+    return $collection ? $mongodb->selectCollection($collection) : $mongodb;
+}
+
+/**
+ * 获取GET参数
+ * @param string 参数名
+ */
+function mGet($var=null,$urldecode=true)
+{
+    $paramTypes = array('string','integer','double');
+    $value = isset($_GET[$var]) ? $_GET[$var] : '';
+    $urldecode ? $value = urldecode($value) : null;
+
+    $type = gettype($value);
+    if (in_array($type, $paramTypes)) {
+        $value = htmlentities(trim($value),ENT_QUOTES,'UTF-8');
+    }
+
+    return $value;
+}
+
+/**
+ * 获取POST参数
+ * @param string 参数名
+ */
+function mPost($var=null,$urldecode=true)
+{
+    $paramTypes = array('string','integer','double');
+    $value = isset($_POST[$var]) ? $_POST[$var] : '';
+    $urldecode ? $value = urldecode($value) : null;
+
+    $type = gettype($value);
+    if (in_array($type, $paramTypes)) {
+        $value = htmlentities(trim($value),ENT_QUOTES,'UTF-8');
+    }
+
+    return $value;
+}
+
+/**
+ * 获取REQUEST参数
+ * @param string 参数名
+ */
+function mRequest($var=null,$urldecode=true)
+{
+    //判断请求方式 GET/POST
+    if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+        $value = mGet($var,$urldecode);
+    } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $value = mPost($var,$urldecode);
+    } else {
+        $value = $urldecode ? urldecode($_REQUEST[$var]) : $_REQUEST[$var];
+    }
+    return $value;
+}
+
+/**
+ * ipaddress转longint
+ */
+function iptolong($ip=null)
+{
+    if (!preg_match('/^[0-9]{1,3}(\.[0-9]{1,3}){3}$/',$ip)) return 0;
+
+    $ipa = explode('.', $ip);
+    $ipint = 0;
+    $i = 0;
+    foreach ($ipa as $d) {
+        if (!is_numeric($d) || $d > 255) return 0;
+
+        $d = $d << (3-$i)*8;
+        $ipint += $d;
+        $i++;
+    }
+
+    return sprintf('%u',$ipint);
+}
+
+/**
+ * 实例化控制器类
+ */
+function CR($name,$path='')
+{
+    return controller($name,$path);
+}
+
+/**
+ * 格式化时间 将秒数格式化为 天.时.分.秒
+ */
+function ftime2dayhourminsec($time=null)
+{
+    if (!is_numeric($time)||$time<=0) return array();
+
+    $minutesec = 60;
+    $hoursec = 3600;
+    $daysec = 24*$hoursec;
+    //天
+    $day = floor($time/$daysec);
+    //时
+    $time -= $day*$daysec;
+    $hour = floor($time/$hoursec);
+    //分
+    $time -= $hour*$hoursec;
+    $minute = floor($time/$minutesec);
+    //秒
+    $second = $time-$minute*$minutesec;
+
+    return array(
+        'day' => $day,
+        'hour' => $hour,
+        'minute' => $minute,
+        'second' => $second
+    );
+}
+
+/**
+ * 计算两个经纬度之间的距离
+ * @return 公里
+ */
+ function getdistance($lng1,$lat1,$lng2,$lat2){
+    //将角度转为狐度
+    $radLat1=deg2rad($lat1);//deg2rad()函数将角度转换为弧度
+    $radLat2=deg2rad($lat2);
+    $radLng1=deg2rad($lng1);
+    $radLng2=deg2rad($lng2);
+    $a=$radLat1-$radLat2;
+    $b=$radLng1-$radLng2;
+    $s=2*asin(sqrt(pow(sin($a/2),2)+cos($radLat1)*cos($radLat2)*pow(sin($b/2),2)))*EARTH_RADIUS*1000;
+    $return = round($s/1000);
+    return $return;
 }

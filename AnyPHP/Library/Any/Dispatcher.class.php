@@ -129,8 +129,8 @@ class Dispatcher {
         define('__SELF__',strip_tags($_SERVER[C('URL_REQUEST_URI')]));
 
         // 获取模块名称
-        define('MODULE_NAME', defined('MAIN_MODULE')? MAIN_MODULE : self::getModule($varModule));
-        
+        defined('MODULE_NAME') or define('MODULE_NAME', defined('MAIN_MODULE')? MAIN_MODULE : self::getModule($varModule));
+
         // 检测模块是否存在
         if( MODULE_NAME && (defined('MAIN_MODULE') || !in_array_case(MODULE_NAME,C('MODULE_DENY_LIST')) ) && is_dir(APP_PATH.MODULE_NAME)){
             // 定义当前模块路径

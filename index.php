@@ -19,9 +19,6 @@ define('APP_DEBUG', True);
 //绑定主入口模块 例：绑定Front模块 可以直接访问Front模块的controller/action
 define('MAIN_MODULE', 'Front');
 
-//定义应用目录
-define('APP_PATH', str_replace('\\','/',dirname(__FILE__)).'/');
-
 //加载AnyPHP主入口文件
 require './AnyPHP/AnyPHP.php';
 

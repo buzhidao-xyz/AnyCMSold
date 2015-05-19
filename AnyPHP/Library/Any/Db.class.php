@@ -22,9 +22,11 @@ class Db {
             // 解析连接参数 支持数组和字符串
             $options    =   self::parseConfig($config);
             // 兼容mysqli
-            if('mysqli' == $options['type']) $options['type']   =   'mysql';
+            if('mysqli' == $options['type']) {
+                $options['type']   =   'mysql';
+            }
             // 如果采用lite方式 仅支持原生SQL 包括query和execute方法
-            $class  =   $options['lite']?  'Any\Db\Lite' :   'Any\\Db\\Driver\\'.ucwords(strtolower($options['type']));
+            $class  =   !empty($options['lite'])?  'Any\Db\Lite' :   'Any\\Db\\Driver\\'.ucwords(strtolower($options['type']));
             if(class_exists($class)){
                 self::$instance[$md5]   =   new $class($options);
             }else{
@@ -111,7 +113,7 @@ class Db {
             'database'  =>  isset($info['path']) ? substr($info['path'],1) : '',
             'charset'   =>  isset($info['fragment'])?$info['fragment']:'utf8',
         );
-        
+
         if(isset($info['query'])) {
             parse_str($info['query'],$dsn['params']);
         }else{

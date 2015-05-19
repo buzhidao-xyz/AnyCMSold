@@ -55,7 +55,7 @@ class Any
 
 			// 读取当前应用模式对应的配置文件
 			if('common' != APP_MODE && is_file(CONF_PATH.'config_'.APP_MODE.CONF_EXT))
-			  C(load_config(CONF_PATH.'config_'.APP_MODE.CONF_EXT));  
+			  C(load_config(CONF_PATH.'config_'.APP_MODE.CONF_EXT));
 
 			// 加载模式别名定义
 			if(isset($mode['alias'])){
@@ -74,10 +74,10 @@ class Any
 			// 加载应用行为定义
 			if(is_file(CONF_PATH.'tags.php'))
 			  // 允许应用增加开发模式配置定义
-			  Hook::import(include CONF_PATH.'tags.php');   
+			  Hook::import(include CONF_PATH.'tags.php');
 
 			// 加载框架底层语言包
-			L(include ANY_PATH.'Lang/'.strtolower(C('DEFAULT_LANG')).'.php');
+			L(include ANY_PATH.'Common/Lang/'.strtolower(C('DEFAULT_LANG')).'.php');
 
 			if(!APP_DEBUG){
 			  $content  .=  "\nnamespace { Any\\Any::addMap(".var_export(self::$_map,true).");";
@@ -88,25 +88,25 @@ class Any
 			C(include ANY_PATH.'Conf/debug.php');
 			// 读取应用调试配置文件
 			if(is_file(CONF_PATH.'debug'.CONF_EXT))
-			    C(include CONF_PATH.'debug'.CONF_EXT);           
+			    C(include CONF_PATH.'debug'.CONF_EXT);
 			}
 		}
 
 		// 读取当前应用状态对应的配置文件
 		if(APP_STATUS && is_file(CONF_PATH.APP_STATUS.CONF_EXT))
-			C(include CONF_PATH.APP_STATUS.CONF_EXT);   
+			C(include CONF_PATH.APP_STATUS.CONF_EXT);
 
 		// 设置系统时区
 		date_default_timezone_set(C('DEFAULT_TIMEZONE'));
 
 		// 检查应用目录结构 如果不存在则自动创建
-		if(C('CHECK_APP_DIR')) {
-			$module     =   defined('MAIN_MODULE') ? MAIN_MODULE : C('DEFAULT_MODULE');
-			if(!is_dir(APP_PATH.$module) || !is_dir(LOG_PATH)){
-				// 检测应用目录结构
-				Build::checkDir($module);
-			}
-		}
+		// if(C('CHECK_APP_DIR')) {
+		// 	$module     =   defined('MAIN_MODULE') ? MAIN_MODULE : C('DEFAULT_MODULE');
+		// 	if(!is_dir(APP_PATH.$module) || !is_dir(LOG_PATH)){
+		// 		// 检测应用目录结构
+		// 		Build::checkDir($module);
+		// 	}
+		// }
 
 		// 记录加载文件时间
 		G('loadTime');
@@ -120,7 +120,7 @@ class Any
 			self::$_map = array_merge(self::$_map, $class);
 		}else{
 			self::$_map[$class] = $map;
-		}        
+		}
     }
 
     // 获取classmap
@@ -146,7 +146,7 @@ class Any
             include self::$_map[$class];
         } else if (false !== strpos($class,'\\')){
 			$name           =   strstr($class, '\\', true);
-			if(in_array($name,array('Any','Org','Behavior','Com','Vendor')) || is_dir(LIB_PATH.$name)){ 
+			if(in_array($name,array('Any','Org','Behavior','Com','Vendor')) || is_dir(LIB_PATH.$name)){
 				// Library目录下面的命名空间自动定位
 				$path       =   LIB_PATH;
 			}else{
@@ -169,7 +169,7 @@ class Any
 			        if(require_cache(MODULE_PATH.$layer.'/'.$class.EXT)) {
 			            return ;
 			        }
-			    }            
+			    }
 			}
 			// 根据自动加载路径设置进行尝试搜索
 			foreach (explode(',',C('APP_AUTOLOAD_PATH')) as $path){
@@ -253,7 +253,7 @@ class Any
 			break;
 		}
     }
-    
+
     // 致命错误捕获
     static public function fatalError() {
         Log::save();
@@ -263,7 +263,7 @@ class Any
 				case E_PARSE:
 				case E_CORE_ERROR:
 				case E_COMPILE_ERROR:
-				case E_USER_ERROR:  
+				case E_USER_ERROR:
 					ob_end_clean();
 					self::halt($e);
 					break;
@@ -325,7 +325,7 @@ class Any
         }else{
             $info   =   ($label?$label.':':'').print_r($value,true);
             $level  =   strtoupper($level);
-            
+
             if((defined('IS_AJAX') && IS_AJAX) || !C('SHOW_PAGE_TRACE')  || $record) {
                 Log::record($info,$level,$record);
             }else{

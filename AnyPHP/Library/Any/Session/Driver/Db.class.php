@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Session驱动 Db
  */
@@ -17,7 +17,7 @@ class Db {
     /**
      * Session有效时间
      */
-   protected $lifeTime      = ''; 
+   protected $lifeTime      = '';
 
     /**
      * session保存的数据库名
@@ -27,15 +27,15 @@ class Db {
     /**
      * 数据库句柄
      */
-   protected $hander  = array(); 
+   protected $hander  = array();
 
     /**
-     * 打开Session 
-     * @access public 
-     * @param string $savePath 
-     * @param mixed $sessName  
+     * 打开Session
+     * @access public
+     * @param string $savePath
+     * @param mixed $sessName
      */
-    public function open($savePath, $sessName) { 
+    public function open($savePath, $sessName) {
        $this->lifeTime = C('SESSION_EXPIRE')?C('SESSION_EXPIRE'):ini_get('session.gc_maxlifetime');
        $this->sessionTable  =   C('SESSION_TABLE')?C('SESSION_TABLE'):C("DB_PREFIX")."session";
        //分布式数据库
@@ -90,77 +90,79 @@ class Db {
        $dbSel = mysql_select_db(
            isset($name[$r])?$name[$r]:$name[0]
            ,$hander);
-       if(!$hander || !$dbSel) 
-           return false; 
-       $this->hander = $hander; 
-       return true; 
-    } 
+       if(!$hander || !$dbSel)
+           return false;
+       $this->hander = $hander;
+       return true;
+    }
 
     /**
-     * 关闭Session 
-     * @access public 
+     * 关闭Session
+     * @access public
      */
-   public function close() {
-       if(is_array($this->hander)){
-           $this->gc($this->lifeTime);
-           return (mysql_close($this->hander[0]) && mysql_close($this->hander[1]));
-       }
-       $this->gc($this->lifeTime); 
-       return mysql_close($this->hander); 
-   } 
+    public function close() {
+        if(is_array($this->hander)){
+            $this->gc($this->lifeTime);
+            return (mysql_close($this->hander[0]) && mysql_close($this->hander[1]));
+        }
+        $this->gc($this->lifeTime);
+        return mysql_close($this->hander);
+    }
 
     /**
-     * 读取Session 
-     * @access public 
-     * @param string $sessID 
+     * 读取Session
+     * @access public
+     * @param string $sessID
      */
-   public function read($sessID) { 
-       $hander = is_array($this->hander)?$this->hander[1]:$this->hander;
-       $res = mysql_query("SELECT session_data AS data FROM ".$this->sessionTable." WHERE session_id = '$sessID'   AND session_expire >".time(),$hander); 
-       if($res) {
+    public function read($sessID) {
+        $hander = is_array($this->hander)?$this->hander[1]:$this->hander;
+        $res = mysql_query("SELECT session_data AS data FROM ".$this->sessionTable." WHERE session_id = '$sessID'   AND session_expire >".time(),$hander);
+        if($res) {
            $row = mysql_fetch_assoc($res);
-           return $row['data']; 
-       }
-       return ""; 
-   } 
+           return $row['data'];
+        }
+        return "";
+    }
 
     /**
-     * 写入Session 
-     * @access public 
-     * @param string $sessID 
-     * @param String $sessData  
+     * 写入Session
+     * @access public
+     * @param string $sessID
+     * @param String $sessData
      */
-   public function write($sessID,$sessData) { 
-       $hander = is_array($this->hander)?$this->hander[0]:$this->hander;
-       $expire = time() + $this->lifeTime; 
-       mysql_query("REPLACE INTO  ".$this->sessionTable." (  session_id, session_expire, session_data)  VALUES( '$sessID', '$expire',  '$sessData')",$hander); 
-       if(mysql_affected_rows($hander)) 
-           return true; 
-       return false; 
-   } 
+    public function write($sessID,$sessData) {
+        $hander   = is_array($this->hander)?$this->hander[0]:$this->hander;
+        $expire   = time() + $this->lifeTime;
+        $sessData = addslashes($sessData);
+        mysql_query("REPLACE INTO  ".$this->sessionTable." (  session_id, session_expire, session_data)  VALUES( '$sessID', '$expire',  '$sessData')",$hander);
+        if (mysql_affected_rows($hander)) {
+           return true;
+        }
+        return false;
+    }
 
     /**
-     * 删除Session 
-     * @access public 
-     * @param string $sessID 
+     * 删除Session
+     * @access public
+     * @param string $sessID
      */
-   public function destroy($sessID) { 
-       $hander = is_array($this->hander)?$this->hander[0]:$this->hander;
-       mysql_query("DELETE FROM ".$this->sessionTable." WHERE session_id = '$sessID'",$hander); 
-       if(mysql_affected_rows($hander)) 
-           return true; 
-       return false; 
-   } 
+    public function destroy($sessID) {
+        $hander = is_array($this->hander)?$this->hander[0]:$this->hander;
+        mysql_query("DELETE FROM ".$this->sessionTable." WHERE session_id = '$sessID'",$hander);
+        if(mysql_affected_rows($hander)) {
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Session 垃圾回收
-     * @access public 
-     * @param string $sessMaxLifeTime 
+     * @access public
+     * @param string $sessMaxLifeTime
      */
-   public function gc($sessMaxLifeTime) { 
-       $hander = is_array($this->hander)?$this->hander[0]:$this->hander;
-       mysql_query("DELETE FROM ".$this->sessionTable." WHERE session_expire < ".time(),$hander); 
-       return mysql_affected_rows($hander); 
-   } 
-
+    public function gc($sessMaxLifeTime) {
+        $hander = is_array($this->hander)?$this->hander[0]:$this->hander;
+        mysql_query("DELETE FROM ".$this->sessionTable." WHERE session_expire < ".time(),$hander);
+        return mysql_affected_rows($hander);
+    }
 }

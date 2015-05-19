@@ -22,7 +22,7 @@ return array(
     // 函数和类文件
     'core'      =>  array(
         MODE_PATH.'Api/functions.php',
-        COMMON_PATH.'Common/function.php',
+        COMMON_PATH.'function.php',
         MODE_PATH . 'Api/App'.EXT,
         MODE_PATH . 'Api/Dispatcher'.EXT,
         MODE_PATH . 'Api/Controller'.EXT,
