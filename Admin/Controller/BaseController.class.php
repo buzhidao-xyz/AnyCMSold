@@ -106,20 +106,14 @@ class BaseController extends Controller
     }
 
     /**
-     * APP返回数据
+     * AJAX返回数据
      * @param int $error 是否产生错误信息 0没有错误信息 1有错误信息
      * @param string $msg 如果有错 msg为错误信息
      * @param array $data 返回的数据 多维数组
      * @return json 统一返回json数据
      */
-    public function appReturn($error=0,$msg=null,$data=array())
+    protected function ajaxReturn($error=0,$msg=null,$data=array())
     {
-        if (!in_array($error,$this->errorflag)) {
-            $error = 1;
-            !$msg ? $msg = L('appreturn_error_errorflag') : null;
-            $data = array();
-        }
-
         if ($error && !$msg) {
             $error = 1;
             $msg   = L('appreturn_error_msg');
@@ -142,14 +136,15 @@ class BaseController extends Controller
         $type = 'json';
         switch ($type) {
             case 'json':
+                header('Content-Type: application/json');
                 $return = json_encode($return);
                 break;
             default:
+                header('Content-Type: application/json');
                 $return = json_encode($return);
                 break;
         }
 
-        header('Content-Type: application/json');
         echo $return;
         exit;
     }

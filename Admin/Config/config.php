@@ -13,7 +13,7 @@ return array(
 	),
 
 	//服务器域名
-	'HTTP_HOST'          => 'http://'.$_SERVER['HTTP_HOST'],
+	'HTTP_HOST'          => 'http://'.$_SERVER['HTTP_HOST'].'/',
 	//系统 JS静态文件服务器
 	'JS_FILE_SERVER'     => null,
 	//系统 css静态文件服务器

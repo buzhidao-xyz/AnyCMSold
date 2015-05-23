@@ -111,25 +111,99 @@ class Log
 
 	/**
 	 * 记录异常错误日志
+	 * @param array $logparam 日志参数
+	 * array(
+	 *     "ModuleName" => "Admin",
+	 *     "ServerIp"   => "127.0.0.1",
+	 *     "DateTime"   => "2015-05-17 09:43:10",
+	 *     "TimeZone"   => "UTC+8",
+	 *     "Degree"     => "WARN",
+	 *     "Content"    => "日志内容/错误信息"
+	 * )
+	 * Degree (
+	 *     "DEBUG"  //调试
+	 *     "NOTICE" //提醒
+	 *     "WARN"   //警告
+	 *     "ERROR"  //错误
+	 *     "FATAL"  //严重错误
+	 * )
 	 */
 	static public function ErrorLog($logparam=null)
 	{
+		//日志文件
+        $logfile = self::_gLogfile($logparam['ModuleName']);
+        if (!$logfile) return false;
 
+        //日志内容
+        $logcontent  = null;
+		$logcontent .= '[' . $logparam['ModuleName'] . ':' . $logparam['ServerIp'] . '] ';
+		$logcontent .= '[' . $logparam['DateTime'] . ' ' . $logparam['TimeZone'] . '] ';
+		$logcontent .= $logparam['Degree'] . ' - - ' . $logparam['Content'];
+		$logcontent .= "\r\n";
+
+        file_put_contents($logfile, $logcontent, FILE_APPEND);
+
+        return true;
 	}
 
 	/**
 	 * 记录运行时日志
+	 * @param array $logparam 日志参数
+	 * array(
+	 *     "ModuleName" => "Admin",
+	 *     "ServerIp"   => "127.0.0.1",
+	 *     "DateTime"   => "2015-05-17 09:43:10",
+	 *     "TimeZone"   => "UTC+8",
+	 *     "Content"    => "运行时数据信息"
+	 * )
 	 */
 	static public function RuntimeLog($logparam=null)
 	{
+		//日志文件
+        $logfile = self::_gLogfile($logparam['ModuleName']);
+        if (!$logfile) return false;
 
+        //日志内容
+        $logcontent  = null;
+		$logcontent .= '[' . $logparam['ModuleName'] . ':' . $logparam['ServerIp'] . '] ';
+		$logcontent .= '[' . $logparam['DateTime'] . ' ' . $logparam['TimeZone'] . '] ';
+		$logcontent .= $logparam['Content'];
+		$logcontent .= "\r\n";
+
+        file_put_contents($logfile, $logcontent, FILE_APPEND);
+
+        return true;
 	}
 
 	/**
 	 * 记录功能操作日志
+	 * @param array $logparam 日志参数
+	 * array(
+	 *     "ModuleName" => "Admin",
+	 *     "ServerIp"   => "127.0.0.1",
+	 *     "DateTime"   => "2015-05-17 09:43:10",
+	 *     "TimeZone"   => "UTC+8",
+	 *     "Account"    => "admin",
+	 *     "ClientIp"   => "192.168.1.1",
+	 *     "Content"    => "操作内容"
+	 * )
 	 */
 	static public function OperateLog($logparam=null)
 	{
+		//日志文件
+        $logfile = self::_gLogfile($logparam['ModuleName']);
+        if (!$logfile) return false;
 
+        //日志内容
+        $logcontent  = null;
+		$logcontent .= '[' . $logparam['ModuleName'] . ':' . $logparam['ServerIp'] . '] ';
+		$logcontent .= '[' . $logparam['DateTime'] . ' ' . $logparam['TimeZone'] . '] ';
+		$logcontent .= '[' . $logparam['Account'] . ':' . $logparam['ClientIp'] . '] ';
+		$logcontent .= $logparam['Content'];
+		$logcontent .= "\r\n";
+
+        file_put_contents($logfile, $logcontent, FILE_APPEND);
+
+        return true;
 	}
 }

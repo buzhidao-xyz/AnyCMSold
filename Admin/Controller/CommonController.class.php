@@ -15,12 +15,43 @@ class CommonController extends BaseController
     {
         parent::__construct();
 
-        //获取登录用户信息
+        //检查登录
+        $this->_CKUserLogon();
+
+        //获取登录信息
         $this->userinfo = $this->GSUserInfo();
     }
 
+    //goto登录页
+    protected function _gotoLogin()
+    {
+        header('Location:'.__APP__.'?s=Admin/Login');
+        exit;
+    }
+
+    //goto登出页
+    protected function _gotoLogout()
+    {
+        header('Location:'.__APP__.'?s=Admin/Logout');
+        exit;
+    }
+
     /**
-     * 存取用户信息 session
+     * 检查登录状态
+     */
+    protected function _CKUserLogon()
+    {
+        $userinfo = session('userinfo');
+        //如果未登录 跳转到登录页Admin/Login
+        if (!$userinfo || !is_array($userinfo)) {
+            $this->_gotoLogin();
+        }
+
+        return true;
+    }
+
+    /**
+     * 存取登录信息 session
      * @param int $isrefresh 是否刷新session 0:不刷新 1:刷新 默认1
      */
     protected function GSUserInfo($userinfo=array(),$isrefresh=1)
@@ -45,27 +76,14 @@ class CommonController extends BaseController
     }
 
     /**
-     * 注销用户登录信息session
+     * 注销登录信息session
      */
     protected function USUserInfo()
     {
         session('userinfo',null);
     }
 
-    /**
-     * 判断用户是否已登录
-     */
-    protected function CKUserLogon($appreturnflag=0)
-    {
-        if (!$this->userinfo || !is_array($this->userinfo)) {
-            return $appreturnflag ? $this->appReturn(1,L('user_logon_unknow')) : false;
-        }
-
-        return true;
-    }
-
-    //获取页码
-    //默认页码1
+    //获取页码 默认1
     protected function _getPage($page=0)
     {
         $_page = $page ? $page : 1;

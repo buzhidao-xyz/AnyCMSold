@@ -111,7 +111,7 @@ class Dispatcher {
             define('__INFO__',trim($_SERVER['PATH_INFO'],'/'));
             // URL后缀
             define('__EXT__', strtolower(pathinfo($_SERVER['PATH_INFO'],PATHINFO_EXTENSION)));
-            $_SERVER['PATH_INFO'] = __INFO__;     
+            $_SERVER['PATH_INFO'] = __INFO__;
             if(!defined('MAIN_MODULE') && (!C('URL_ROUTER_ON') || !Route::check())){
                 if (__INFO__ && C('MULTI_MODULE')){ // 获取模块名
                     $paths      =   explode($depr,__INFO__,2);
@@ -162,6 +162,8 @@ class Dispatcher {
             // 加载模块函数文件
             if(is_file(MODULE_PATH.'Common/function.php'))
                 include MODULE_PATH.'Common/function.php';
+            
+            $urlCase        =   C('URL_CASE_INSENSITIVE');
             // 加载模块的扩展配置文件
             load_ext_file(MODULE_PATH);
         }else{

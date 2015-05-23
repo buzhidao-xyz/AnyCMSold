@@ -31,6 +31,7 @@ defined('APP_PATH')     or define('APP_PATH',       substr(ANY_DIR, 0, strrpos(A
 defined('APP_STATUS')   or define('APP_STATUS',     ''); // 应用状态 加载对应的配置文件
 defined('APP_DEBUG')    or define('APP_DEBUG',      false); // 是否调试模式
 
+defined('MAIN_MODULE')  or define('MAIN_MODULE',    MODULE_NAME);
 defined('APP_MODULE')   or define('APP_MODULE',     defined('MAIN_MODULE') ? MAIN_MODULE : (defined('MODULE_NAME')?MODULE_NAME:''));
 
 defined('TIMESTAMP')    or define('TIMESTAMP', time());
