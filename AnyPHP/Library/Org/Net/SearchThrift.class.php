@@ -37,7 +37,7 @@ class SearchThrift extends Thrift
 	 */
 	private function _loadConfig()
 	{
-		require_once(APP_PATH.APP_MODULE.'/Config/thrift.config.php');
+		require_once(APP_PATH.MODULE_NAME.'/Config/thrift.config.php');
 
 		$this->_host = $SearchService['host'];
 		$this->_port = $SearchService['port'];

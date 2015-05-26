@@ -112,7 +112,7 @@ class Dispatcher {
             // URL后缀
             define('__EXT__', strtolower(pathinfo($_SERVER['PATH_INFO'],PATHINFO_EXTENSION)));
             $_SERVER['PATH_INFO'] = __INFO__;
-            if(!defined('MAIN_MODULE') && (!C('URL_ROUTER_ON') || !Route::check())){
+            if(!defined('MAIN_MODULE') && !defined('MODULE_NAME') && (!C('URL_ROUTER_ON') || !Route::check())){
                 if (__INFO__ && C('MULTI_MODULE')){ // 获取模块名
                     $paths      =   explode($depr,__INFO__,2);
                     $allowList  =   C('MODULE_ALLOW_LIST'); // 允许的模块列表
@@ -129,7 +129,7 @@ class Dispatcher {
         define('__SELF__',strip_tags($_SERVER[C('URL_REQUEST_URI')]));
 
         // 获取模块名称
-        defined('MODULE_NAME') or define('MODULE_NAME', defined('MAIN_MODULE')? MAIN_MODULE : self::getModule($varModule));
+        // defined('MODULE_NAME') or define('MODULE_NAME', defined('MAIN_MODULE')? MAIN_MODULE : self::getModule($varModule));
 
         // 检测模块是否存在
         if( MODULE_NAME && (defined('MAIN_MODULE') || !in_array_case(MODULE_NAME,C('MODULE_DENY_LIST')) ) && is_dir(APP_PATH.MODULE_NAME)){

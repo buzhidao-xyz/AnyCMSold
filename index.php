@@ -17,7 +17,10 @@ ob_start('ob_gzhandler');
 define('APP_DEBUG', True);
 
 //绑定主入口模块 例：绑定Front模块 可以直接访问Front模块的controller/action
-define('MAIN_MODULE', 'Front');
+define('MAIN_MODULE', 'Admin');
+
+//应用主入口标识
+define('APP_INDEX', 1);
 
 //加载AnyPHP主入口文件
 require './AnyPHP/AnyPHP.php';

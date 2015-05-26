@@ -5,7 +5,7 @@
  * luochuan.wang@gmail.com
  */
 
-//应用入口文件
+//应用模块入口文件
 
 // 检测PHP环境
 if(version_compare(PHP_VERSION,'5.3.0','<'))  die('require PHP > 5.3.0 !');
@@ -18,6 +18,9 @@ define('APP_DEBUG', True);
 
 //绑定模块
 define('MODULE_NAME', 'Front');
+
+//应用模块主入口标识
+define('MODULE_INDEX', 1);
 
 //加载AnyPHP主入口文件
 require '../AnyPHP/AnyPHP.php';

@@ -30,16 +30,13 @@ class BaseController extends Controller
      */
     private function _assignConfig()
     {
-        //HTTP_HOST
-        $this->assign('HTTP_HOST',C('HTTP_HOST'));
-        //JS静态文件服务器
-        $this->assign('JS_FILE_SERVER',C('JS_FILE_SERVER'));
-        //css静态文件服务器
-        $this->assign('CSS_FILE_SERVER',C('CSS_FILE_SERVER'));
-        //.svg .eot .ttf .woff字体文件服务器
-        $this->assign('FONT_FILE_SERVER',C('FONT_FILE_SERVER'));
-        //图片文件服务器
-        $this->assign('IMAGE_SERVER',C('IMAGE_SERVER'));
+        //服务器HOST
+        $server_host = C('SERVER_HOST');
+        if (is_array($server_host)&&!empty($server_host)) {
+            foreach ($server_host as $key=>$value) {
+                $this->assign($key, $value);
+            }
+        }
     }
 
     /**
