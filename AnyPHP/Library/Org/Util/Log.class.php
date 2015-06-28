@@ -167,7 +167,7 @@ class Log
         $logcontent  = null;
 		$logcontent .= '[' . $logparam['ModuleName'] . ':' . $logparam['ServerIp'] . '] ';
 		$logcontent .= '[' . $logparam['DateTime'] . ' ' . $logparam['TimeZone'] . '] ';
-		$logcontent .= $logparam['Content'];
+		$logcontent .= is_array($logparam['Content']) ? trim(var_export(json_encode($logparam['Content']), true), '\'') : $logparam['Content'];
 		$logcontent .= "\r\n";
 
         file_put_contents($logfile, $logcontent, FILE_APPEND);

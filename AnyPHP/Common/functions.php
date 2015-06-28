@@ -1371,7 +1371,7 @@ function session($name='',$value='',$expire=0,$extime=1) {
         if(isset($name['type']))            C('SESSION_TYPE',$name['type']);
         if(C('SESSION_TYPE')) { // 读取session驱动
             $type   =   C('SESSION_TYPE');
-            $class  =   strpos($type,'\\')? $type : 'Think\\Session\\Driver\\'. ucwords(strtolower($type));
+            $class  =   strpos($type,'\\')? $type : 'Any\\Session\\Driver\\'. ucwords(strtolower($type));
             $hander =   new $class();
             session_set_save_handler(
                 array(&$hander,"open"),
@@ -1799,7 +1799,7 @@ function Mongo($collection=null,$db=null,$dbconfig=null)
     !$db ? $db = $mconfig['database'] : null;
 
     //连接MongoDB
-    $mongo = new \Think\Db\Driver\Mongo($mconfig);
+    $mongo = new \Any\Db\Driver\Mongo($mconfig);
     $mongoconn = $mongo->connect();
 
     //选择数据库

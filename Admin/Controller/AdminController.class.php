@@ -17,7 +17,7 @@ class AdminController extends BaseController
         parent::__construct();
     }
 
-    //获取账号 规则：字母开始 数字字母 长度5-20
+    //获取账号 规则：字母开始 字母数字 长度5-20
     private function _getAccount()
     {
         $account = mRequest("account");
@@ -26,6 +26,14 @@ class AdminController extends BaseController
         }
 
         return $account;
+    }
+
+    /**
+     * 获取密码 规则：字母数字下划线!@#$% 长度3-20
+     */
+    private function _getPassword()
+    {
+        
     }
 
     //登录 AJAX

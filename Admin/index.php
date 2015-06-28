@@ -19,7 +19,7 @@ define('APP_DEBUG', True);
 //绑定模块
 define('MODULE_NAME', 'Admin');
 
-//应用模块主入口标识
+//系统应用模块主入口标识
 define('MODULE_INDEX', 1);
 
 //加载AnyPHP主入口文件
