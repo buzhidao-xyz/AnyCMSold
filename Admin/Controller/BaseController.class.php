@@ -30,13 +30,13 @@ class BaseController extends Controller
      */
     private function _assignConfig()
     {
+        $SERVER = array();
+
         //服务器HOST
-        $server_host = C('SERVER_HOST');
-        if (is_array($server_host)&&!empty($server_host)) {
-            foreach ($server_host as $key=>$value) {
-                $this->assign($key, $value);
-            }
-        }
+        $HOST = C('HOST');
+        $SERVER['HOST'] = $HOST;
+        
+        $this->assign('SERVER', $SERVER);
     }
 
     /**

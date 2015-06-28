@@ -4,11 +4,11 @@
  * wangbaoqing@imooly.com
  * 2015-05-15
  */
-require_once('serverhost.config.php');
+require_once('host.config.php');
 require_once('db.config.php');
 
 return array(
-	'SERVER_HOST' => $SERVER_HOST,
+	'HOST'          => $HOST,
 	
 	//默认语言
 	'DEFAULT_LANG'  => 'zh-cn',
