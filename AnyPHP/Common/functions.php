@@ -610,6 +610,7 @@ function M($name='', $tablePrefix='',$connection='') {
     }
     $guid           =   (is_array($connection)?implode('',$connection):$connection).$tablePrefix . $name . '_' . $class;
 
+    if (!$connection) $connection = "DB_CONFIG.DEFAULT_CONFIG";
     if ($connection && is_string($connection)) {
         $connection_array = C($connection);
         is_array($connection_array)&&!empty($connection_array) ? $connection=$connection_array : null;
@@ -680,6 +681,12 @@ function controller($name,$path=''){
     }else {
         return false;
     }
+}
+
+//controller函数简写
+function CR($name, $path='')
+{
+    return controller($name,$path);
 }
 
 /**
@@ -1850,14 +1857,15 @@ function mPost($var=null,$urldecode=true)
  */
 function mRequest($var=null,$urldecode=true)
 {
-    //判断请求方式 GET/POST
-    if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-        $value = mGet($var,$urldecode);
-    } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $value = mPost($var,$urldecode);
-    } else {
-        $value = $urldecode ? urldecode($_REQUEST[$var]) : $_REQUEST[$var];
+    $paramTypes = array('string','integer','double');
+    $value = isset($_REQUEST[$var]) ? $_REQUEST[$var] : '';
+    $urldecode ? $value = urldecode($value) : null;
+
+    $type = gettype($value);
+    if (in_array($type, $paramTypes)) {
+        $value = htmlentities(trim($value),ENT_QUOTES,'UTF-8');
     }
+
     return $value;
 }
 
@@ -1880,14 +1888,6 @@ function iptolong($ip=null)
     }
 
     return sprintf('%u',$ipint);
-}
-
-/**
- * 实例化控制器类
- */
-function CR($name,$path='')
-{
-    return controller($name,$path);
 }
 
 /**

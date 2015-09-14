@@ -1,0 +1,590 @@
+{include file="Common/alertpanel.html"}
+<div class="row">
+    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+        <h1 class="page-title txt-color-blueDark">
+            <i class="fa fa-edit fa-fw "></i> 
+                系统管理控制面板
+            </span>
+        </h1>
+    </div>
+    <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
+        <div class="navbar navbar-default">
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div id="nav-bar-main" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a href="{$ANY.__APP__}?s=Index/dashboard">控制面板</a>
+                    </li>
+                    <li>
+                        <a href="{$ANY.__APP__}?s=Data/electriccharts">电量分析图</a>
+                    </li>
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false">能耗分析 <span class="caret"></span></a>
+                        <ul role="menu" class="dropdown-menu">
+                            <li>
+                                <a href="{$ANY.__APP__}?s=Rate/light">亮灯率</a>
+                            </li>
+                            <li>
+                                <a href="{$ANY.__APP__}?s=Rate/energy">节能率</a>
+                            </li>
+                            <!-- <li class="divider"></li>
+                            <li class="disabled">
+                                <a href="javascript:void(0)">无</a>
+                            </li> -->
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+    <!-- row -->
+    <div class="row">
+
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-darken" id="asset-analyse" data-widget-editbutton="false">
+                <!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+
+                -->
+                <header role="heading">
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>资产统计</h2>
+
+                </header>
+
+                <!-- widget div-->
+                <div role="content">
+
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+
+                    </div>
+                    <!-- end widget edit box -->
+
+                    <!-- widget content -->
+                    <div class="widget-body no-padding">
+
+                        <div class="table-responsive">
+                                
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>集中器数量</th>
+                                        <th>未同步集中器</th>
+                                        <th>回路数量</th>
+                                        <th>灯数量</th>
+                                        <th>报警灯数量</th>
+                                        <th>故障灯数量</th>
+                                        <th>场景数量</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>5</td>
+                                        <td><font color="red">2</font></td>
+                                        <td>7</td>
+                                        <td>170</td>
+                                        <td><font color="red">12</font></td>
+                                        <td><font color="red">5</font></td>
+                                        <td><font color="green">13</font></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                        </div>
+
+                    </div>
+                    <!-- end widget content -->
+
+                </div>
+                <!-- end widget div -->
+
+            </div>
+            <!-- end widget -->
+
+        </article>
+        <!-- WIDGET END -->
+
+    </div>
+    <!-- end row -->
+
+    <!-- row -->
+    <div class="row">
+
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
+
+            <div class="well">
+                        
+                <h3><span class="widget-icon"> <i class="fa fa-bar-chart-o"></i> </span> 用电量统计 </h3>
+                
+                <div id="electric-analyse" class="electric-analyse">
+                    <header class="eheader">
+                        <p>当月用电量：3700.0 Kw.h</font></p>
+                        <p><font color="red">当日用电量：123.0 Kw.h</font></p>
+                        <p><font color="green">日均用电量：430.0 Kw.h</font></p>
+                    </header>
+                    <div id="ElectricContainer" class="electriccontainer">
+
+                    </div>
+                </div>
+
+            </div>
+
+        </article>
+        <!-- WIDGET END -->
+
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+            
+            <div class="well">
+
+                <h3><span class="widget-icon"> <i class="fa fa-picture-o"></i> </span> 企业项目 </h3>
+                
+                <div id="company-analyse" class="analyse company-analyse">
+                    <div id="CompanyMap" class="companymap">
+                        <img src="{$SERVER.HOST.IMAGE_SERVER}Themes/Smart/assets/img/company_map.png" class="img-responsive center-block">
+                    </div>
+                    <div id="CompanyWeather" class="companyweather row">
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-5 text-center" style="margin-left: 10px;">
+                            <p class="date">2015-08-19</p>
+                            <p class="time">23:01:05</p>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-3 text-center">
+                            <p><a href="javascript:void(0);">苏州</a></p>
+                            <p><img src="{$SERVER.HOST.IMAGE_SERVER}Themes/Smart/assets/img/weather/rain.png" class="img-responsive center-block"></p>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-left" style="margin-left:-15px;">
+                            <p><strong>阴有小雨</strong></p>
+                            <p class="wind">北风<br/>25℃-30℃</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </article>
+        <!-- WIDGET END -->
+
+    </div>
+    <!-- end row -->
+
+    <!-- row -->
+    <div class="row">
+
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+        
+            <div class="well">
+
+                <h3><span class="widget-icon"> <i class="fa fa-tint"></i> </span> <font color="green">亮灯率</font> </h3>
+                
+                <div id="light-analyse" class="analyse light-analyse">
+                    <div id="LightContainer" class="lightcontainer">
+                        
+                    </div>
+                </div>
+
+            </div>
+
+        </article>
+        <!-- WIDGET END -->
+
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+            
+            <div class="well">
+
+                <h3><span class="widget-icon"> <i class="fa fa-tint"></i> </span> <font color="green">节能率</font> </h3>
+                
+                <div id="energy-analyse" class="analyse energy-analyse">
+                    <div id="EnergyContainer" class="energycontainer">
+                        
+                    </div>
+                </div>
+
+            </div>
+
+        </article>
+        <!-- WIDGET END -->
+
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+            
+            <div class="well">
+
+                <h3><span class="widget-icon"> <i class="fa fa-flash"></i> </span> <font color="green">设备报警</font> </h3>
+                
+                <div id="alarm-analyse" class="analyse alarm-analyse">
+                    <p class="text-left"><span class="atitle">当月报警次数</span> <span class="anum">175</span></p>
+                    <p class="text-left"><span class="atitle">当日报警次数</span> <span class="anum">9</span></p>
+
+                    <div class="table-responsive alarm-analyse-table">
+                            
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>灯源位置</th>
+                                    <th>设备</th>
+                                    <th>报警时间</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>9</td>
+                                    <td>120.730755<br/>31.314701</td>
+                                    <td>镇流器<br/>(100235)</td>
+                                    <td><font color="red">13:09:05</font></td>
+                                </tr>
+                                <tr>
+                                    <td>8</td>
+                                    <td>120.730755<br/>31.314701</td>
+                                    <td>镇流器<br/>(100235)</td>
+                                    <td><font color="red">13:09:05</font></td>
+                                </tr>
+                                <tr>
+                                    <td>7</td>
+                                    <td>120.730755<br/>31.314701</td>
+                                    <td>镇流器<br/>(100235)</td>
+                                    <td><font color="red">13:09:05</font></td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>120.730755<br/>31.314701</td>
+                                    <td>镇流器<br/>(100235)</td>
+                                    <td><font color="red">13:09:05</font></td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>120.730755<br/>31.314701</td>
+                                    <td>镇流器<br/>(100235)</td>
+                                    <td><font color="red">13:09:05</font></td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>120.730755<br/>31.314701</td>
+                                    <td>镇流器<br/>(100235)</td>
+                                    <td><font color="red">13:09:05</font></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>120.730755<br/>31.314701</td>
+                                    <td>镇流器<br/>(100235)</td>
+                                    <td><font color="red">13:09:05</font></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>120.730755<br/>31.314701</td>
+                                    <td>镇流器<br/>(100235)</td>
+                                    <td><font color="red">13:09:05</font></td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>120.730755<br/>31.314701</td>
+                                    <td>镇流器<br/>(100235)</td>
+                                    <td><font color="red">13:09:05</font></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                </div>
+
+            </div>
+
+        </article>
+        <!-- WIDGET END -->
+
+    </div>
+    <!-- end row -->
+
+</section>
+<!-- end widget grid -->
+
+<script type="text/javascript">
+
+    /* DO NOT REMOVE : GLOBAL FUNCTIONS!
+     *
+     * pageSetUp(); WILL CALL THE FOLLOWING FUNCTIONS
+     *
+     * // activate tooltips
+     * $("[rel=tooltip]").tooltip();
+     *
+     * // activate popovers
+     * $("[rel=popover]").popover();
+     *
+     * // activate popovers with hover states
+     * $("[rel=popover-hover]").popover({ trigger: "hover" });
+     *
+     * // activate inline charts
+     * runAllCharts();
+     *
+     * // setup widgets
+     * setup_widgets_desktop();
+     *
+     * // run form elements
+     * runAllForms();
+     *
+     ********************************
+     *
+     * pageSetUp() is needed whenever you load a page.
+     * It initializes and checks for all basic elements of the page
+     * and makes rendering easier.
+     *
+     */
+
+    pageSetUp();
+    
+    /*
+     * ALL PAGE RELATED SCRIPTS CAN GO BELOW HERE
+     * eg alert("my home function");
+     * 
+     * var pagefunction = function() {
+     *   ...
+     * }
+     * loadScript("js/plugin/_PLUGIN_NAME_.js", pagefunction);
+     * 
+     */
+    
+    // PAGE RELATED SCRIPTS
+    
+    // pagefunction 
+    var pagefunction = function() {
+        //console.log("cleared");
+        
+        /* // DOM Position key index //
+        
+            l - Length changing (dropdown)
+            f - Filtering input (search)
+            t - The Table! (datatable)
+            i - Information (records)
+            p - Pagination (paging)
+            r - pRocessing 
+            < and > - div elements
+            <"#id" and > - div with an id
+            <"class" and > - div with a class
+            <"#id.class" and > - div with an id and class
+            
+            Also see: http://legacy.datatables.net/usage/features
+        */  
+
+        /* BASIC ;*/
+            var responsiveHelper_dt_basic = undefined;
+            var responsiveHelper_datatable_fixed_column = undefined;
+            var responsiveHelper_datatable_col_reorder = undefined;
+            var responsiveHelper_datatable_tabletools = undefined;
+            
+            var breakpointDefinition = {
+                tablet : 1024,
+                phone : 480
+            };
+
+        /* END BASIC */ 
+    
+        /* COLUMN SHOW - HIDE */
+        $('#datalist_table_container').dataTable({
+            //"bFilter": false,
+            "bInfo": false,
+            //"bLengthChange": false
+            //"bAutoWidth": false,
+            "bPaginate": false,
+            //"bStateSave": true // saves sort state using localStorage
+            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-6 hidden-xs'C>r>"+
+                    "t"+
+                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
+            "autoWidth" : true,
+            "preDrawCallback" : function() {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_datatable_col_reorder) {
+                    responsiveHelper_datatable_col_reorder = new ResponsiveDatatablesHelper($('#datalist_table_container'), breakpointDefinition);
+                }
+            },
+            "rowCallback" : function(nRow) {
+                responsiveHelper_datatable_col_reorder.createExpandIcon(nRow);
+            },
+            "drawCallback" : function(oSettings) {
+                responsiveHelper_datatable_col_reorder.respond();
+            }           
+        });
+        
+        /* END COLUMN SHOW - HIDE */
+
+    };
+
+    // load related plugins
+    
+    loadScript(JS_SERVER+"plugin/datatables/jquery.dataTables.min.js", function(){
+        loadScript(JS_SERVER+"plugin/datatables/dataTables.colVis.min.js", function(){
+            loadScript(JS_SERVER+"plugin/datatables/dataTables.tableTools.min.js", function(){
+                loadScript(JS_SERVER+"plugin/datatables/dataTables.bootstrap.min.js", function(){
+                    loadScript(JS_SERVER+"plugin/datatable-responsive/datatables.responsive.min.js", pagefunction)
+                });
+            });
+        });
+    });
+
+
+</script>
+
+<script type="text/javascript">
+$(function() {
+    //电量统计图
+    $('#ElectricContainer').highcharts({
+        chart: {
+            type: 'column'
+        },
+        credits: {
+             text: '',
+             href: 'javascript:void(0);'
+        },
+        title: {
+            text: '用电量走势图'
+        },
+        subtitle: {
+            text: '最近七天'
+        },
+        xAxis: {
+            categories: ['12/8', '13/8', '14/8', '15/8', '16/8', '17/8', '18/8']
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '电量 (Kw.h)'
+            }
+        },
+        tooltip: {
+            headerFormat: '{literal}<span style="font-size:10px"></span>{/literal}',
+            pointFormat: '' + '',
+            footerFormat: '<table><tbody>{literal}<tr><td style="color:{series.color};padding:0">{series.name}: </td></tr><tr><td style="padding:0"><b>{point.y:.1f}Kw.h</b></td></tr>{/literal}</tbody></table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            name: '当日用电量',
+            color: '#336699',
+            data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6]
+        }]
+    });
+
+    //亮灯率
+    $('#LightContainer').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        credits: {
+             text: '',
+             href: 'javascript:void(0);'
+        },
+        title: {
+            text: ''
+        },
+        tooltip: {
+            pointFormat: '{literal}{series.name}: <b>{point.y}({point.percentage:.1f}%)</b>{/literal}'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    distance: -50,
+                    format: '{literal}<b>{point.y}({point.percentage:.1f}%)</b>{/literal}'
+                },
+                showInLegend: true
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: '数量',
+            data: [
+                {
+                    name: '亮灯状态',
+                    y: 130.0,
+                    sliced: true,
+                    selected: true,
+                },
+                ['失败状态', 3.0],
+                ['关灯状态', 13.0],
+                ['报警状态', 17.0],
+                ['未知状态', 7.0]
+            ]
+        }]
+    });
+
+    //节能率
+    $('#EnergyContainer').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        credits: {
+             text: '',
+             href: 'javascript:void(0);'
+        },
+        title: {
+            text: ''
+        },
+        tooltip: {
+            pointFormat: '{literal}{series.name}: <b>{point.y}({point.percentage:.1f}%)</b>{/literal}'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    distance: -50,
+                    format: '{literal}<b>{point.y}({point.percentage:.1f}%)</b>{/literal}'
+                },
+                showInLegend: true
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: '数量',
+            data: [
+                {
+                    name: '当前能耗功率',
+                    y: 270.0,
+                    sliced: true,
+                    selected: true,
+                    color: '#747474',
+                },
+                {
+                    name: '节省能耗功率',
+                    y: 60.0,
+                    color: '#00CCCC',
+                }
+            ]
+        }]
+    });
+});
+</script>

@@ -40,6 +40,8 @@ $HOST = array(
     'FONT_SERVER'   => HOST_PATH.MODULE_NAME.'/',
     //系统 图片文件服务器
     'IMAGE_SERVER'  => HOST_PATH.MODULE_NAME.'/',
+    //系统 声音文件服务器
+    'SOUND_SERVER'  => HOST_PATH.MODULE_NAME.'/',
     //系统公共资源服务器
     'PUBLIC_SERVER' => HOST_PATH.'Public/',
 );

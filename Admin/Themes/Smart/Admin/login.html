@@ -1,0 +1,181 @@
+{include file="Common/head.html"}
+{include file="Common/alertpanel.html"}
+<header id="header">
+    <div id="logo-group">
+        <span id="logo"> <img src="{$SERVER.HOST.IMAGE_SERVER}Themes/Smart/assets/img/smart-logo.png" alt="AnyCMS"> </span>
+    </div>
+    <span id="extr-page-header-space">
+        <span class="hidden-mobile hidden-xs" style="">
+            <h3><i class="fa fa-phone"></i>&nbsp;0512-88888888</h3>
+        </span>
+    </span>
+</header>
+
+<div id="main" role="main">
+    <!-- MAIN CONTENT -->
+    <div id="content" class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-8 hidden-xs hidden-sm">
+                <h1 class="txt-color-red login-header-big">{$SYSTEM.systemtitle.value}</h1>
+                <div class="hero" style="height: 330px;">
+                    <div class="pull-left login-desc-box-l">
+                        <h4 class="paragraph-header" style="width: 430px;height: 180px;">
+                            <p style="text-indent: 30px;">AnyCMS采用AnyPHP框架制作。</p>
+                            <p style="text-indent: 30px;">安全、高效、简单、稳定。</p>
+                        </h4>
+                        <div class="login-app-icons" style="margin-top: 20px;">
+                            <a href="javascript:void(0);" class="btn btn-danger btn-sm">AnyPHP</a>
+                            <a href="javascript:void(0);" class="btn btn-danger btn-sm" style="margin-left: 10px;">系统手册</a>
+                        </div>
+                    </div>
+                    <img src="{$SERVER.HOST.IMAGE_SERVER}Themes/Smart/assets/img/login-panel-img.png" class="pull-right display-image" alt="" style="width:205px;height:380px;">
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <h5 class="about-heading"> AnyPHP框架 </h5>
+                        <p style="text-indent: 26px;">安全、高效、简单、快捷。</p>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <h5 class="about-heading"> AnyCMS系统 </h5>
+                        <p style="text-indent: 26px;">丰富、灵活、快速、稳定</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+                <div class="well no-padding" style="margin-bottom: 12px;">
+                    <form name="login-form" action="{$ANY.__APP__}?s=Admin/loginck" method="post" id="login-form" class="smart-form client-form">
+                        <header>
+                            <b>系统登录</b>
+                        </header>
+                        <fieldset>
+                            <section>
+                                <label class="label">账号</label>
+                                <label class="input">
+                                    <i class="icon-append fa fa-user"></i>
+                                    <input type="txt" name="account">
+                                    <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> 请填写账号</b>
+                                </label>
+                            </section>
+                            <section>
+                                <label class="label">密码</label>
+                                <label class="input"> <i class="icon-append fa fa-lock"></i>
+                                    <input type="password" name="password">
+                                    <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> 请填写密码</b> </label>
+                            </section>
+                            <section>
+                                <label class="label">验证码</label>
+                                <label class="input" style="float:left; width: 215px;">
+                                    <i class="icon-append fa fa-codepen"></i>
+                                    <input type="txt" name="vcode">
+                                    <b class="tooltip tooltip-top-right"><i class="fa fa-codepen txt-color-teal"></i> 请填写验证码</b>
+                                </label>
+                                <img id="VCode" src="{$ANY.__APP__}?s=Org/VCode">
+                            </section>
+                        </fieldset>
+                        <footer>
+                            <button type="submit" class="btn btn-primary"> 登 录 </button>
+                        </footer>
+                    </form>
+                </div>
+                <h5 class="text-left" style="font-size: 14px;margin: 0px;"> - 联系我们 - </h5>
+                <ul class="list-inline text-center">
+                    <li class="listnone">
+                        <!-- <a href="javascript:void(0);" class="btn bg-color-blue txt-color-white"> -->
+                            <i class="fa fa-phone"></i>&nbsp;&nbsp;&nbsp;0512-88888888
+                        <!-- </a> -->
+                    </li>
+                    <li class="listnone">
+                        <!-- <a href="javascript:void(0);" class="btn bg-color-blue txt-color-white"> -->
+                            <i class="fa fa-mail-forward"></i>&nbsp;&nbsp;&nbsp;service@sindgood.com
+                        <!-- </a> -->
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+li.listnone {
+    clear: both;
+    margin-top: 10px;
+    float: left;
+    text-align: center;
+}
+img#VCode {
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+#extr-page #main {
+    padding-bottom: 12px;
+    margin-left: 0;
+    min-height: 500px;
+    background: #fff;
+}
+</style>
+
+<script type="text/javascript">
+$(function() {
+    //点击刷新验证码
+    var VCodeSrc = $("img#VCode").attr("src");
+    $("img#VCode").click(function() {
+        $(this).attr("src", VCodeSrc+"&"+parseInt(Math.random()*100000))
+    });
+
+    //login-form验证
+    $("#login-form").validate({
+        rules : {
+            account : {
+                required : true
+            },
+            password : {
+                required : true
+            },
+            vcode : {
+                required : true
+            }
+        },
+
+        // 验证信息
+        messages : {
+            account : {
+                required : '请填写账号'
+            },
+            password : {
+                required : '请填写密码'
+            },
+            vcode : {
+                required : '请填写验证码'
+            }
+        },
+
+        // Do not change code below
+        errorPlacement : function(error, element) {
+            error.insertAfter(element.parent());
+        }
+    });
+
+    $("#login-form").submit(function () {
+        var url = $(this).attr("action");
+        var method = $(this).attr("method");
+        var d = $(this).serialize();
+
+        $.post(url, d, function(data) {
+            var status = data.error ? 'error' : 'success';
+            alertPanelShow(status, data.msg);
+            if (!data.error) {
+                var location_href = "";
+                if ("location" in data.data) {
+                    location_href = data.data.location;
+                }
+                location.href = location_href ? location_href : location.href;
+            }
+            $("img#VCode").click();
+        }, 'json');
+
+        return false;
+    });
+});
+</script>
+{include file="Common/foot.html"}

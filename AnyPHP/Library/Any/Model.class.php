@@ -80,7 +80,7 @@ class Model {
         }elseif('' != $tablePrefix) {
             $this->tablePrefix = $tablePrefix;
         }elseif(!isset($this->tablePrefix)){
-            $this->tablePrefix = C('DB_PREFIX');
+            $this->tablePrefix = $connection['DB_PREFIX'];
         }
 
         // 数据库初始化操作

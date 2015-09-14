@@ -112,7 +112,6 @@ class Mysql extends Driver{
                     $value[]   =  $val[1];
                 }elseif (is_null($val)) {
                     $value[]   =  'NULL';
-                }
                 }elseif(is_scalar($val)){
                     if(0===strpos($val,':') && in_array($val,array_keys($this->bind))){
                         $value[]   =   $this->parseValue($val);

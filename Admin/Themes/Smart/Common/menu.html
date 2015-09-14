@@ -1,0 +1,85 @@
+<!-- #NAVIGATION -->
+<!-- Left panel : Navigation area -->
+<!-- Note: This width of the aside area can be adjusted through LESS/SASS variables -->
+<aside id="left-panel">
+
+    <!-- User info -->
+    <div class="login-info">
+        <span> <!-- User image size is adjusted inside CSS, it should stay as is --> 
+            
+            <a href="javascript:void(0);" id="show-shortcut" data-action="toggleShortcut">
+                <img src="{$SERVER.HOST.IMAGE_SERVER}Themes/Smart/assets/img/avatars/male.png" alt="me" class="online" /> 
+                <span>
+                    {$managerinfo.userinfo.username}
+                </span>
+                <i class="fa fa-angle-down"></i>
+            </a> 
+            
+        </span>
+    </div>
+    <!-- end user info -->
+
+    <!-- NAVIGATION : This navigation is also responsive
+
+    To make this navigation dynamic please make sure to link the node
+    (the reference to the nav > ul) after page load. Or the navigation
+    will not initialize.
+    -->
+    <nav>
+
+        {if isset($managerinfo.access)&&is_array($managerinfo.access)&&!empty($managerinfo.access)}
+        <ul>
+            {foreach $managerinfo.access as $group}
+            <li>
+                {if isset($group.nodelist)&&is_array($group.nodelist)&&!empty($group.nodelist)}
+                <a href="#">
+                    <i class="fa fa-lg fa-fw {$group.icon}"></i>
+                    <span class="menu-item-parent">{$group.groupname}</span>
+                </a>
+                <ul>
+                    {foreach $group.nodelist as $ppnode}
+                    <li>
+                        {if isset($ppnode.nodelist)&&is_array($ppnode.nodelist)&&!empty($ppnode.nodelist)}
+                        <a href="#">{$ppnode.nodename}</a>
+                        <ul>
+                            {foreach $ppnode.nodelist as $pnode}
+                            <li>
+                                {if isset($pnode.nodelist)&&is_array($pnode.nodelist)&&!empty($pnode.nodelist)}
+                                <a href="#"><i class="fa fa-fw fa-folder-open"></i> {$pnode.nodename}</a>
+                                <ul>
+                                    {foreach $pnode.nodelist as $node}
+                                    <li>
+                                        <a href="{$ANY.__APP__}?s={$node.control}/{$node.action}"><i class="fa fa-fw fa-folder-open"></i> {$node.nodename}</a>
+                                    </li>
+                                    {/foreach}
+                                </ul>
+                                {else}
+                                <a href="{$ANY.__APP__}?s={$pnode.control}/{$pnode.action}"><i class="fa fa-fw fa-folder-open"></i> {$pnode.nodename}</a>
+                                {/if}
+                            </li>
+                            {/foreach}
+                        </ul>
+                        {else}
+                        <a href="{$ANY.__APP__}?s={$ppnode.control}/{$ppnode.action}">{$ppnode.nodename}</a>
+                        {/if}
+                    </li>
+                    {/foreach}
+                </ul>
+                {else}
+                <a href="{$ANY.__APP__}?s={$group.control}/{$group.action}">
+                    <i class="fa fa-lg fa-fw {$group.icon}"></i>
+                    <span class="menu-item-parent">{$group.groupname}</span>
+                </a>
+                {/if}
+            </li>
+            {/foreach}
+        </ul>
+        {/if}
+
+    </nav>
+
+    <!-- <a href="#ajax/difver.html" class="btn btn-primary nav-demo-btn">AngularJS, PHP and .Net Versions</a> -->
+    
+    <span class="minifyme" data-action="minifyMenu"> <i class="fa fa-arrow-circle-left hit"></i> </span>
+
+</aside>

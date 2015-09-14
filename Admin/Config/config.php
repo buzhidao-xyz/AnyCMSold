@@ -8,17 +8,25 @@ require_once('host.config.php');
 require_once('db.config.php');
 
 return array(
-	'HOST'          => $HOST,
+	'HOST' => $HOST,
 	
 	//默认语言
 	'DEFAULT_LANG'  => 'zh-cn',
-	//默认主题模板
-	'DEFAULT_THEME' => 'Default',
+	//主题模板 - Smart
+	'DEFAULT_THEME' => 'Smart',
 	
 	//数据库配置信息 支持多数据库配置
 	'DB_CONFIG'     => $database,
 	//mongodb配置信息
 	'MONGO'         => $mongo,
+
+	//系统初始化默认管理员(超级管理员super=1)
+	//区别仅在系统内不可编辑和删除
+	//manager表字段信息
+	'SYSTEM_MANAGER' => array(
+		'managerid' => 1,
+		'account'   => 'admin',
+	),
 
 	//SESSION配置信息
 	'SESSION_TYPE'       => '',

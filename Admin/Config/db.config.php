@@ -22,7 +22,7 @@ $database = array(
 		// 密码
 		'DB_PWD'             => '123456',
 		// 表前缀
-		'DB_PREFIX'          => 'any',
+		'DB_PREFIX'          => 'any_',
 		// 字符集
 		'DB_CHARSET'         => 'utf8',
 		'DB_CASE_LOWER'      => true,
@@ -42,7 +42,7 @@ $database = array(
 		// 密码
 		'DB_PWD'             => '123456',
 		// 表前缀
-		'DB_PREFIX'          => 'any',
+		'DB_PREFIX'          => 'any_',
 		// 字符集
 		'DB_CHARSET'         => 'utf8',
 		'DB_CASE_LOWER'      => true,

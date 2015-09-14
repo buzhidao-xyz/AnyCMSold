@@ -1,0 +1,43 @@
+<div class="form-group">
+    <label>企业:</label>
+    {if is_array($adminCompanyInfo)&&!empty($adminCompanyInfo)}
+    <br/><b>{$adminCompanyInfo.companyname}</b>
+    {else}
+    <select name="companyID" class="select2" style="width:100%">
+        <option value="0">请选择企业</option>
+        {foreach $adminCompanyList as $company}
+        <option value="{$company.companyid}" {if $company.companyid==$param.companyID}selected{/if}>{$company.companyname}</option>
+        {/foreach}
+    </select>
+    {/if}
+</div>
+<div class="form-group">
+    <label>项目:</label>
+    <select name="projectID" class="select2" style="width:100%">
+        <option value="0">请选择项目</option>
+        {foreach $adminProjectList as $project}
+        <option value="{$project.projectid}" {if $project.projectid==$param.projectID}selected{/if}>{$project.projectname}</option>
+        {/foreach}
+    </select>
+</div>
+<script type="text/javascript">
+var CompanyProjectClass = function () {
+    var CompanyObj = $("select[name=companyID]");
+    var ProjectObj = $("select[name=projectID]");
+
+    CompanyObj.on('change', function(event) {
+        event.preventDefault();
+
+        var param = {
+            companyID: $(this).val()
+        }
+        $.get(JS_APP+'?s=Company/ajaxGetProjectByCompanyID', param, function (data) {
+            if (!data.error) {
+                ProjectObj.html(data.data.html);
+            } else {
+                alertPanelShow('error', data.msg);
+            }
+        }, 'json');
+    });
+}();
+</script>

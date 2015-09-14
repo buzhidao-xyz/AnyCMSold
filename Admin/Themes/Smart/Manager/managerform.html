@@ -1,0 +1,257 @@
+{include file="Common/alertpanel.html"}
+<div class="row">
+    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+        <h1 class="page-title txt-color-blueDark">
+            <i class="fa fa-edit fa-fw "></i> 
+                系统管理员控制面板
+            </span>
+        </h1>
+    </div>
+    <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
+        <div class="navbar navbar-default">
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div id="nav-bar-main" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="{$ANY.__APP__}?s=Manager/index">管理</a>
+                    </li>
+                    <li class="active">
+                        <a href="{$ANY.__APP__}?s=Manager/newmanager">新增</a>
+                    </li>
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false">更多 <span class="caret"></span></a>
+                        <ul role="menu" class="dropdown-menu">
+                            <li>
+                                <a href="{$ANY.__APP__}?s=Manager/loginlog">登录日志</a>
+                            </li>
+                            <li>
+                                <a href="{$ANY.__APP__}?s=Manager/operatelog">操作日志</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li class="disabled">
+                                <a href="javascript:void(0)">无</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+    <!-- row -->
+    <div class="row">
+
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-darken" id="manager-new" data-widget-editbutton="false">
+                <!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+
+                -->
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-file-text"></i> </span>
+                    <h2>新增管理员</h2>
+
+                </header>
+
+                <!-- widget div-->
+                <div>
+
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+
+                    </div>
+                    <!-- end widget edit box -->
+
+                    <!-- widget content -->
+                    <div class="widget-body">
+                        <form name="formnewedit" method="post" action="{$ANY.__APP__}?s=Manager/saveManager">
+                            <input type="hidden" name="managerID" value="{if (isset($managerInfo.managerid))}{$managerInfo.managerid}{/if}">
+
+                            <legend>基本信息</legend>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label>账户</label>
+                                    <input type="text" placeholder="例：admin" class="form-control" name="account" value="{if (isset($managerInfo.account))}{$managerInfo.account}{/if}">
+                                </div>
+                                <div class="form-group">
+                                    <label>密码</label>
+                                    <input type="password" placeholder="密码" class="form-control" name="password" value="">
+                                    <p class="note"><strong>*规则:</strong> 字母开始 字母数字下划线 长度5-20. {if (isset($managerInfo.managerid))}<strong><font color="#FF0000">*如果不修改请留空.</font></strong>{/if}</p>
+                                </div>
+                                <div class="form-group">
+                                    <label>确认密码</label>
+                                    <input type="password" placeholder="确认密码" class="form-control" name="password1" value="">
+                                    <p class="note"><strong>*规则:</strong> 字母数字开始 字母数字下划线!@#$% 长度5-20. {if (isset($managerInfo.managerid))}<strong><font color="#FF0000">*如果不修改请留空.</font></strong>{/if}</p>
+                                </div>
+                                <div class="form-group">
+                                    <label>是否超级管理员</label>
+                                    <div class="">
+                                        <label class="radio radio-inline">
+                                            <input type="radio" name="super" value="1" {if (isset($managerInfo.super)&&$managerInfo.super==1)}checked{/if}> 是
+                                        </label>
+                                        <label class="radio radio-inline">
+                                            <input type="radio" name="super" value="0" {if (!isset($managerInfo.super)||$managerInfo.super==0)}checked{/if}> 否
+                                        </label>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <legend>权限信息</legend>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label>选择角色</label>
+                                    <select multiple name="roleID" class="select2" style="width:100%">
+                                        {foreach $rolelist as $role}
+                                        <option value="{$role.roleid}" {if (isset($managerInfo.roleid)&&in_array($role.roleid, $managerInfo.roleid))}checked{/if}>{$role.rolename}</option>
+                                        {/foreach}
+                                    </select>
+                                </div>
+                            </fieldset>
+
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button type="reset" class="btn btn-default">
+                                            <i class="fa fa-undo"></i> 重置
+                                        </button>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fa fa-save"></i> 保存
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- end widget content -->
+
+                </div>
+                <!-- end widget div -->
+
+            </div>
+            <!-- end widget -->
+
+        </article>
+        <!-- WIDGET END -->
+
+    </div>
+
+    <!-- end row -->
+
+    <!-- end row -->
+
+</section>
+<!-- end widget grid -->
+
+<script type="text/javascript">
+
+    /* DO NOT REMOVE : GLOBAL FUNCTIONS!
+     *
+     * pageSetUp(); WILL CALL THE FOLLOWING FUNCTIONS
+     *
+     * // activate tooltips
+     * $("[rel=tooltip]").tooltip();
+     *
+     * // activate popovers
+     * $("[rel=popover]").popover();
+     *
+     * // activate popovers with hover states
+     * $("[rel=popover-hover]").popover({ trigger: "hover" });
+     *
+     * // activate inline charts
+     * runAllCharts();
+     *
+     * // setup widgets
+     * setup_widgets_desktop();
+     *
+     * // run form elements
+     * runAllForms();
+     *
+     ********************************
+     *
+     * pageSetUp() is needed whenever you load a page.
+     * It initializes and checks for all basic elements of the page
+     * and makes rendering easier.
+     *
+     */
+
+    pageSetUp();
+    
+    /*
+     * ALL PAGE RELATED SCRIPTS CAN GO BELOW HERE
+     * eg alert("my home function");
+     * 
+     * var pagefunction = function() {
+     *   ...
+     * }
+     * loadScript("js/plugin/_PLUGIN_NAME_.js", pagefunction);
+     * 
+     */
+    
+    // PAGE RELATED SCRIPTS
+    
+    // pagefunction 
+    var pagefunction = function() {
+        //console.log("cleared");
+        
+        /* // DOM Position key index //
+        
+            l - Length changing (dropdown)
+            f - Filtering input (search)
+            t - The Table! (datatable)
+            i - Information (records)
+            p - Pagination (paging)
+            r - pRocessing 
+            < and > - div elements
+            <"#id" and > - div with an id
+            <"class" and > - div with a class
+            <"#id.class" and > - div with an id and class
+            
+            Also see: http://legacy.datatables.net/usage/features
+        */  
+
+        /* BASIC ;*/
+            var responsiveHelper_dt_basic = undefined;
+            var responsiveHelper_datatable_fixed_column = undefined;
+            var responsiveHelper_datatable_col_reorder = undefined;
+            var responsiveHelper_datatable_tabletools = undefined;
+            
+            var breakpointDefinition = {
+                tablet : 1024,
+                phone : 480
+            };
+
+        /* END BASIC */
+    };
+
+    // load related plugins
+    
+    loadScript(JS_SERVER+"plugin/datatables/jquery.dataTables.min.js", function(){
+        loadScript(JS_SERVER+"plugin/datatables/dataTables.colVis.min.js", function(){
+            loadScript(JS_SERVER+"plugin/datatables/dataTables.tableTools.min.js", function(){
+                loadScript(JS_SERVER+"plugin/datatables/dataTables.bootstrap.min.js", function(){
+                    loadScript(JS_SERVER+"plugin/datatable-responsive/datatables.responsive.min.js", pagefunction)
+                });
+            });
+        });
+    });
+</script>
+
+<!-- container js -->
+<script src="{$SERVER.HOST.JS_SERVER}Themes/Smart/assets/js/container.js"></script>

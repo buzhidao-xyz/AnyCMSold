@@ -15,28 +15,18 @@ class BaseController extends Controller
     {
         parent::__construct();
 
-        //配置文件输出到模板
-        $this->_assignConfig();
-
         //加载语言包
         $this->_loadLang();
 
+        //输出系统配置
+        $this->_assignConfig();
+        //输出系统参数
+        $this->_assignSystem();
+        //输出框架参数
+        $this->_assignAny();
+
         //记录请求日志
         $this->_accessLog();
-    }
-
-    /**
-     * 配置文件输出到模板
-     */
-    private function _assignConfig()
-    {
-        $SERVER = array();
-
-        //服务器HOST
-        $HOST = C('HOST');
-        $SERVER['HOST'] = $HOST;
-        
-        $this->assign('SERVER', $SERVER);
     }
 
     /**
@@ -44,7 +34,7 @@ class BaseController extends Controller
      */
     private function _loadLang()
     {
-        $lang = C('LANG_DEFAULT');
+        $lang = C('DEFAULT_LANG');
 
         //加载公共语言包
         include(LANG_PATH.$lang.'.php');
@@ -55,20 +45,59 @@ class BaseController extends Controller
     }
 
     /**
+     * 输出系统配置
+     */
+    private function _assignConfig()
+    {
+        $SERVER = array();
+
+        //服务器HOST
+        $HOST = C('HOST');
+        $SERVER['HOST'] = $HOST;
+        $this->assign('SERVER', $SERVER);
+
+        //系统初始化默认管理员
+        $SYSTEM_MANAGER = C('SYSTEM_MANAGER');
+        $this->assign('system_manager', $SYSTEM_MANAGER);
+    }
+
+    //输出系统参数
+    private function _assignSystem()
+    {
+        $SYSTEM = array(
+            'systemtitle' => array(
+                'name'  => '系统名称',
+                'key'   => 'systemtitle',
+                'value' => 'AnyCMS',
+            ),
+        );
+        $this->assign('SYSTEM', $SYSTEM);
+    }
+
+    //输出框架参数
+    private function _assignAny()
+    {
+        $ANY = array(
+            '__APP__' => __APP__,
+        );
+        $this->assign('ANY', $ANY);
+    }
+
+    /**
      * 记录请求日志
      */
     private function _accessLog()
     {
         Log::record('access',array(
-            'ModuleName' => MODULE_NAME,
-            'ServerIp'   => $_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT'],
-            'ClientIp'   => get_client_ip(),
-            'DateTime'   => date('Y-m-d H:i:s', TIMESTAMP),
-            'TimeZone'   => 'UTC'.date('O',TIMESTAMP),
-            "Method"     => $_SERVER['REQUEST_METHOD'],
-            "URL"        => $_SERVER['REQUEST_URI'],
-            "Protocol"   => $_SERVER['SERVER_PROTOCOL'],
-            "RequestData"=> $_REQUEST,
+            'ModuleName'  => MODULE_NAME,
+            'ServerIp'    => $_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT'],
+            'ClientIp'    => get_client_ip(),
+            'DateTime'    => date('Y-m-d H:i:s', TIMESTAMP),
+            'TimeZone'    => 'UTC'.date('O',TIMESTAMP),
+            'Method'      => $_SERVER['REQUEST_METHOD'],
+            'URL'         => $_SERVER['REQUEST_URI'],
+            'Protocol'    => $_SERVER['SERVER_PROTOCOL'],
+            'RequestData' => $_REQUEST,
         ));
     }
 
@@ -113,13 +142,13 @@ class BaseController extends Controller
     {
         if ($error && !$msg) {
             $error = 1;
-            $msg   = L('appreturn_error_msg');
+            $msg   = L('ajaxreturn_error_msg');
             $data  = array();
         }
 
         if (!$error && !is_array($data)) {
             $error = 1;
-            $msg = L('appreturn_error_data');
+            $msg = L('ajaxreturn_error_msg');
             $data = array();
         }
 
@@ -144,5 +173,74 @@ class BaseController extends Controller
 
         echo $return;
         exit;
+    }
+
+    /**
+     * 页面返回数据 展示提示信息
+     * @param int $error 是否产生错误信息 0没有错误信息 1有错误信息 大于1为其他错误码
+     * @param string $msg 如果有错 msg为错误信息
+     * @param array $data 返回的数据 多维数组
+     */
+    protected function pageReturn($error=0,$msg=null,$data=array())
+    {
+        if ($error && !$msg) {
+            $error = 1;
+            $msg   = L('pagereturn_error_msg');
+            $data  = array();
+        }
+
+        if (!$error && !is_array($data)) {
+            $error = 1;
+            $msg = L('pagereturn_error_msg');
+            $data = array();
+        }
+
+        //page数据
+        $pageReturn = array(
+            'error' => $error,
+            'msg'   => $msg,
+            'data'  => $data
+        );
+        $this->assign('pagereturn', $pageReturn);
+
+        $this->display('Public/pagereturn.html');
+        exit;
+    }
+
+    //goto登录页
+    protected function _gotoLogin($goto=true)
+    {
+        $location = __APP__.'?s=Admin/Login';
+        if ($goto) {
+            header('Location:'.$location);
+            exit;
+        } else {
+            return $location;
+        }
+    }
+
+    //goto登出页
+    //bool $goto 是否跳转 true:自动跳转 false:不跳转返回location
+    protected function _gotoLogout($goto=true)
+    {
+        $location = __APP__.'?s=Admin/Logout';
+        if ($goto) {
+            header('Location:'.$location);
+            exit;
+        } else {
+            return $location;
+        }
+    }
+
+    //跳转到系统首页
+    protected function _gotoIndex($goto=true)
+    {
+        $location = __APP__.'?s=Index/index';
+        if ($goto) {
+            header('Location:'.$location);
+            exit;
+        } else {
+            return $location;
+        }
     }
 }

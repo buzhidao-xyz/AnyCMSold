@@ -13,8 +13,14 @@ class IndexController extends CommonController
         parent::__construct();
     }
 
-    //主页
+    //系统主框架页面
     public function index()
+    {
+        $this->display();
+    }
+
+    //系统主界面-控制面板
+    public function dashboard()
     {
         $this->display();
     }
