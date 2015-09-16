@@ -25,7 +25,8 @@ $database = array(
 		'DB_PREFIX'          => 'any',
 		// 字符集
 		'DB_CHARSET'         => 'utf8',
-		'DB_CASE_LOWER'      => true,
+		// 字段名小写
+		'DB_CASE_LOWER'      => false,
 	),
 	//第二个数据库配置
 	'NEW_CONFIG' => array(
@@ -45,7 +46,8 @@ $database = array(
 		'DB_PREFIX'          => 'any',
 		// 字符集
 		'DB_CHARSET'         => 'utf8',
-		'DB_CASE_LOWER'      => true,
+		// 字段名小写
+		'DB_CASE_LOWER'      => false,
 	),
 );
 
