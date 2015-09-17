@@ -1,7 +1,6 @@
 <?php
 /**
  * 各服务SERVER
- * 2015-06-28
  * buzhdiao
  */
 
@@ -25,7 +24,7 @@ function hostpath()
     }
 
     $hostpath = defined('APP_INDEX') ? $hostpath.'/' : substr($hostpath, 0, strrpos($hostpath,'/')).'/';
-    return $hostpath;
+    return stripslashes($hostpath);
 }
 defined('HOST_PATH') or define('HOST_PATH', hostpath());
 
