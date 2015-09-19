@@ -203,7 +203,7 @@ class BaseController extends Controller
         );
         $this->assign('pagereturn', $pageReturn);
 
-        $this->display('Public/pagereturn.html');
+        $this->display('Public/pagereturn');
         exit;
     }
 
