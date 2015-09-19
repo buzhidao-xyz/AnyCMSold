@@ -97,7 +97,7 @@ return  array(
     'TMPL_ACTION_SUCCESS'   =>  ANY_PATH.'Template/jump.html', // 默认成功跳转对应的模板文件
     'TMPL_EXCEPTION_FILE'   =>  ANY_PATH.'Template/exception.html',// 异常页面的模板文件
     'TMPL_DETECT_THEME'     =>  false,       // 自动侦测模板主题
-    'TMPL_TEMPLATE_SUFFIX'  =>  '',     // 默认模板文件后缀 .html
+    'TMPL_TEMPLATE_SUFFIX'  =>  '.html',     // 默认模板文件后缀
     'TMPL_FILE_DEPR'        =>  '/', //模板文件CONTROLLER_NAME与ACTION_NAME之间的分割符
 
     // 布局设置
