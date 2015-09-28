@@ -49,6 +49,7 @@ class CommonController extends BaseController
         if (!is_array($managerinfo)) return false;
 
         $smanagerinfo = session('managerinfo');
+        !is_array($smanagerinfo) ? $smanagerinfo = array() : null;
         if (!empty($managerinfo)) {
             $smanagerinfo = array_merge($smanagerinfo, $managerinfo);
 
