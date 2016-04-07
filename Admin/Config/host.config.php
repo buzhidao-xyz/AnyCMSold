@@ -1,3 +1,4 @@
+
 <?php
 /**
  * 各服务SERVER
@@ -24,13 +25,13 @@ function hostpath()
     }
 
     $hostpath = defined('APP_INDEX') ? $hostpath.'/' : substr($hostpath, 0, strrpos($hostpath,'/')).'/';
-    return stripslashes($hostpath);
+    return stripslashes(str_replace('//', '/', $hostpath));
 }
 defined('HOST_PATH') or define('HOST_PATH', hostpath());
 
 $HOST = array(
     //服务器域名
-    'HTTP_HOST'     => 'http://'.$_SERVER['HTTP_HOST'].'/',
+    'HTTP_HOST'     => 'http://'.$_SERVER['HTTP_HOST'].HOST_PATH,
     //系统 JS静态文件服务器
     'JS_SERVER'     => HOST_PATH.MODULE_NAME.'/',
     //系统 css静态文件服务器
