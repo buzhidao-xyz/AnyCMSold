@@ -5,8 +5,9 @@
 return array(
     // 配置文件
     'config'    =>  array(
-        ANY_PATH .'Config/config.php',   // 系统惯例配置
-        CONF_PATH.'config'.CONF_EXT,      // 应用公共配置
+        ANY_PATH .'Config/config.php',         // 系统配置
+        COMMON_PATH.'Config/config'.CONF_EXT,  // 公共配置
+        MODULE_PATH .'Config/config'.CONF_EXT, // 应用配置
     ),
 
     // 别名定义

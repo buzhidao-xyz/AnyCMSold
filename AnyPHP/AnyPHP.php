@@ -51,8 +51,8 @@ defined('CORE_PATH')    or define('CORE_PATH',      LIB_PATH.'Any/'); // Any类�
 defined('BEHAVIOR_PATH')or define('BEHAVIOR_PATH',  LIB_PATH.'Behavior/'); // 行为类库目录
 defined('MODE_PATH')    or define('MODE_PATH',      ANY_PATH.'Mode/'); // 系统应用模式目录
 defined('VENDOR_PATH')  or define('VENDOR_PATH',    LIB_PATH.'Vendor/'); // 第三方类库目录
-defined('COMMON_PATH')  or define('COMMON_PATH',    MODULE_PATH.'Common/'); // 应用公共目录
-defined('CONF_PATH')    or define('CONF_PATH',      MODULE_PATH.'Config/'); // 应用配置目录
+defined('COMMON_PATH')  or define('COMMON_PATH',    APP_PATH.'Common/'); // 应用公共目录
+defined('CONF_PATH')    or define('CONF_PATH',      COMMON_PATH.'Config/'); // 应用配置目录
 defined('LANG_PATH')    or define('LANG_PATH',      COMMON_PATH.'Lang/'); // 应用语言目录
 defined('HTML_PATH')    or define('HTML_PATH',      MODULE_PATH.'Html/'); // 应用静态目录
 defined('LOG_PATH')     or define('LOG_PATH',       RUNTIME_PATH.'Logs/'); // 应用日志目录

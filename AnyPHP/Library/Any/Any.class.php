@@ -85,7 +85,7 @@ class Any
 			  Storage::put($runtimefile,strip_whitespace('<?php '.$content));
 			}else{
 			// 调试模式加载系统默认的配置文件
-			C(include ANY_PATH.'Conf/debug.php');
+			C(include ANY_PATH.'Config/debug.php');
 			// 读取应用调试配置文件
 			if(is_file(CONF_PATH.'debug'.CONF_EXT))
 			    C(include CONF_PATH.'debug'.CONF_EXT);
