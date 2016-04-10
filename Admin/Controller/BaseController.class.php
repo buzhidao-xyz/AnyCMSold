@@ -15,6 +15,9 @@ class BaseController extends Controller
     {
         parent::__construct();
 
+        //获取php://input数据
+        $this->_getPhpinput();
+
         //加载语言包
         $this->_loadLang();
 
@@ -27,6 +30,16 @@ class BaseController extends Controller
 
         //记录请求日志
         $this->_accessLog();
+    }
+
+    //获取php://input数据
+    private function _getPhpinput()
+    {
+        $phpinput = file_get_contents("php://input");
+        $phpinputdata = json_decode($phpinput, true);
+        !is_array($phpinputdata) ? $phpinputdata = array() : null;
+
+        $_REQUEST = array_merge($_REQUEST, $phpinputdata, array('phpinput'=>$phpinput));
     }
 
     /**
