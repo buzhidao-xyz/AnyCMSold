@@ -1,0 +1,37 @@
+body {
+    padding:0px;
+    margin:0px;
+    color:#000000;
+    text-align:center;
+    font: 13px Tahoma,Verdana,Helvetica,Arial,sans-serif;
+}
+* {
+    outline: medium none;
+    word-wrap: break-word;
+}
+form, h1, h2, h3, h4, h5, ul, li, p, pre, em {
+    width: auto;
+    padding:0px;
+    margin:0px;
+    font-style: normal;
+}
+h1, h2, h3, h4, h5 {
+    color: #004499;
+}
+h1 {
+    font-size: 23px;
+}
+h2 {
+    font-size: 18px;
+}
+h3 {
+    font-size: 15px;
+}
+h4 {
+    font-size: 13px;
+}
+h5 {
+    color: #3A6EA5;
+    font-size: 13px;
+    display: inline;
+}
