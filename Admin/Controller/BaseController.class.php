@@ -47,14 +47,23 @@ class BaseController extends Controller
      */
     private function _loadLang()
     {
-        $lang = C('DEFAULT_LANG');
+        $defaultlang = C('DEFAULT_LANG');
 
-        //加载公共语言包
-        include(LANG_PATH.$lang.'.php');
-        L($lang);
-        //加载控制器语言包
-        include(LANG_PATH.$lang.'/'.CONTROLLER_NAME.'.php');
-        L($lang);
+        //语言包文件
+        $langfiles = array(
+            //系统公共语言包
+            LANG_PATH.$defaultlang.'.php',
+            //系统控制器语言包
+            LANG_PATH.$defaultlang.'/'.CONTROLLER_NAME.'.php',
+            //应用公共语言包
+            MODULE_PATH.'Common/Lang/'.$defaultlang.'.php',
+            //应用控制器语言包
+            MODULE_PATH.'Common/Lang/'.$defaultlang.'/'.CONTROLLER_NAME.'.php',
+        );
+        //遍历加载语言包
+        foreach ($langfiles as $langfile) {
+            if (file_exists($langfile)) L(require($langfile));
+        }
     }
 
     /**
@@ -223,7 +232,7 @@ class BaseController extends Controller
     //goto登录页
     protected function _gotoLogin($goto=true)
     {
-        $location = __APP__.'?s=Admin/Login';
+        $location = __APP__.'?s=Admin/login';
         if ($goto) {
             header('Location:'.$location);
             exit;
@@ -236,7 +245,7 @@ class BaseController extends Controller
     //bool $goto 是否跳转 true:自动跳转 false:不跳转返回location
     protected function _gotoLogout($goto=true)
     {
-        $location = __APP__.'?s=Admin/Logout';
+        $location = __APP__.'?s=Admin/logout';
         if ($goto) {
             header('Location:'.$location);
             exit;

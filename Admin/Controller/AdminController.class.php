@@ -60,7 +60,7 @@ class AdminController extends BaseController
     private function _CKVCode()
     {
         $vcode = mRequest('vcode');
-        if (!CR('Org')->CKVcode($vcode)) {
+        if (!CR('Org')->VCodeAdminLogin($vcode)) {
             $this->ajaxReturn(1, "验证码错误！");
         }
         return true;

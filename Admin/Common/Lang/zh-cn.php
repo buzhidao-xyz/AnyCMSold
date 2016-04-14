@@ -4,7 +4,7 @@
  * buzhidao
  * 2015-07-23
  */
-$lang = array(
+return array(
     //基础模块
     'AJAXRETURN_ERROR_MSG' => '数据解析错误！',
     'PAGERETURN_ERROR_MSG' => '数据解析错误！',
